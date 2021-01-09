@@ -62,7 +62,7 @@ if (strlen($_SESSION['hbmsuid'] == 0)) {
 								<tbody>
 									<?php
 									$uid = $_SESSION['hbmsuid'];
-									$sql = "SELECT tbluser.*,tblbooking.BookingNumber,tblbooking.Status,tblbooking.Remark,tblbooking.ID as bid from tblbooking join tbluser on tblbooking.UserID=tbluser.ID where UserID=:uid";
+									$sql = "SELECT tbluser.*,tblbooking.Status,tblbooking.Remark,tblbooking.ID as bid from tblbooking join tbluser on tblbooking.UserID=tbluser.ID where UserID=:uid";
 
 									$query = $dbh->prepare($sql);
 									$query->bindParam(':uid', $uid, PDO::PARAM_STR);
@@ -74,7 +74,7 @@ if (strlen($_SESSION['hbmsuid'] == 0)) {
 										foreach ($results as $row) {               ?>
 											<tr>
 												<td><?php echo htmlentities($cnt); ?></td>
-												<td><?php echo htmlentities($row->BookingNumber); ?></td>
+												<td><?php echo htmlentities($row->bid); ?></td>
 												<?php if ($row->Status == "") { ?>
 													<td><?php echo "Pendiente"; ?></td>
 												<?php } else { ?> <td><?php echo htmlentities($row->Status); ?>

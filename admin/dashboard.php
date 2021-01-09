@@ -189,7 +189,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 										<h4 class="text-left text-uppercase" style="color: red"><a href="approved-booking.php"><b>Reservas aprobadas</b></a></h4>
 										<div class="row vertical-center-box vertical-center-box-tablet">
 											<?php
-											$sql2 = "SELECT * from  tblbooking where Status='Approved'";
+											$sql2 = "SELECT * from  tblbooking where Status='Aprobada'";
 											$query2 = $dbh->prepare($sql2);
 											$query2->execute();
 											$results2 = $query2->fetchAll(PDO::FETCH_OBJ);
@@ -204,7 +204,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 										<h4 class="text-left text-uppercase" style="color: magenta"><a href="cancelled-booking.php"><b>Reservas canceladas</b></a></h4>
 										<div class="row vertical-center-box vertical-center-box-tablet">
 											<?php
-											$sql2 = "SELECT * from  tblbooking where Status='Cancelled'";
+											$sql2 = "SELECT * from  tblbooking where Status='Cancelada'";
 											$query2 = $dbh->prepare($sql2);
 											$query2->execute();
 											$results2 = $query2->fetchAll(PDO::FETCH_OBJ);

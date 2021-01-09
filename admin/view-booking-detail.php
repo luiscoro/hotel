@@ -14,7 +14,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 		$remark = $_POST['remark'];
 
 
-		$sql = "update tblbooking set Status=:status,Remark=:remark where BookingNumber=:bookingid";
+		$sql = "update tblbooking set Status=:status,Remark=:remark where ID=:bookingid";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':status', $status, PDO::PARAM_STR);
 		$query->bindParam(':remark', $remark, PDO::PARAM_STR);
@@ -127,12 +127,12 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 
 												$bookid = $_GET['bookingid'];
 
-												$sql = "SELECT tblbooking.BookingNumber,tbluser.FullName,tbluser.MobileNumber,tbluser.Email,tblbooking.IDType,tblbooking.Gender,tblbooking.Address,tblbooking.CheckinDate,tblbooking.CheckoutDate,tblbooking.BookingDate,tblbooking.Remark,tblbooking.Status,tblbooking.UpdationDate,tblcategory.CategoryName,tblcategory.Description,tblroom.Price,tblroom.RoomName,tblroom.MaxAdult,tblroom.MaxChild,tblroom.RoomDesc,tblroom.NoofBed,tblroom.Image,tblroom.RoomFacility 
+												$sql = "SELECT tblbooking.ID,tbluser.FullName,tbluser.MobileNumber,tbluser.Email,tblbooking.CheckinDate,tblbooking.CheckoutDate,tblbooking.BookingDate,tblbooking.Remark,tblbooking.Status,tblbooking.UpdationDate,tblcategory.CategoryName,tblcategory.Description,tblroom.Price,tblroom.RoomName,tblroom.MaxAdult,tblroom.MaxChild,tblroom.RoomDesc,tblroom.NoofBed,tblroom.Image,tblroom.RoomFacility 
 from tblbooking 
 join tblroom on tblbooking.RoomId=tblroom.ID 
 join tblcategory on tblcategory.ID=tblroom.RoomType 
 join tbluser on tblbooking.UserID=tbluser.ID  
-where tblbooking.BookingNumber=:bookid";
+where tblbooking.ID=:bookid";
 												$query = $dbh->prepare($sql);
 												$query->bindParam(':bookid', $bookid, PDO::PARAM_STR);
 												$query->execute();
@@ -143,7 +143,7 @@ where tblbooking.BookingNumber=:bookid";
 													foreach ($results as $row) {               ?>
 														<table border="1" class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">
 															<tr>
-																<th colspan="4" style="color: #180a01;font-weight: bold;text-align: center;font-size: 20px"> Número de Reserva: <?php echo $row->BookingNumber; ?></th>
+																<th colspan="4" style="color: #180a01;font-weight: bold;text-align: center;font-size: 20px"> Número de Reserva: <?php echo $row->ID; ?></th>
 															</tr>
 															<tr>
 																<th colspan="4" style="color:  #6c757d;font-weight: bold;font-size: 15px"> Detalles del cliente:</th>
@@ -240,7 +240,8 @@ where tblbooking.BookingNumber=:bookid";
 														if ($status == "") {
 														?>
 															<p align="center" style="padding-top: 20px">
-																<button class="btn btn-primary waves-effect waves-light w-lg" data-toggle="modal" data-target="#myModal">Tomar Acción</button></p>
+																<button class="btn btn-primary waves-effect waves-light w-lg" data-toggle="modal" data-target="#myModal">Tomar Acción</button>
+															</p>
 
 														<?php } ?>
 														<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -261,7 +262,8 @@ where tblbooking.BookingNumber=:bookid";
 																				<tr>
 																					<th>Comentario :</th>
 																					<td>
-																						<textarea name="remark" placeholder="Comentario o respuesta hacia el cliente" rows="12" cols="14" class="form-control wd-450" required="true"></textarea></td>
+																						<textarea name="remark" placeholder="Comentario o respuesta hacia el cliente" rows="12" cols="14" class="form-control wd-450" required="true"></textarea>
+																					</td>
 																				</tr>
 
 
@@ -272,7 +274,8 @@ where tblbooking.BookingNumber=:bookid";
 																						<select name="status" class="form-control wd-450" required="true">
 																							<option value="Aprobada" selected="true">Aprobada</option>
 																							<option value="Cancelada">Cancelada</option>
-																						</select></td>
+																						</select>
+																					</td>
 																				</tr>
 																		</table>
 																	</div>

@@ -2,7 +2,6 @@
 header('Content-Type: text/html; charset=UTF-8');
 /* Por defecto no mostraremos el mensaje */
 $mostrar = false;
-$lin = "";
 session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
@@ -12,7 +11,6 @@ if (strlen($_SESSION['hbmsuid'] == 0)) {
 
 	if (isset($_POST['submit'])) {
 
-		$booknum = mt_rand(100000000, 999999999);
 		$rid = intval($_GET['rmid']);
 		$uid = $_SESSION['hbmsuid'];
 		$checkindate = $_POST['checkindate'];
@@ -20,16 +18,12 @@ if (strlen($_SESSION['hbmsuid'] == 0)) {
 		$cantadult = $_POST['cantadult'];
 		$cantchild = $_POST['cantchild'];
 
-		$cdate = date('Y-m-d');
-		if ($checkindate <  $cdate) {
-			$mostrar = ["Error!", "La fecha de ingreso ingresada es menor a la fecha actual", "error", 3000];
-		} else if ($checkindate > $checkoutdate) {
+		if ($checkindate > $checkoutdate) {
 			$mostrar = ["Error!", "La fecha de salida debe ser igual o mayor a la fecha de ingreso", "error"];
 		} else {
-			$sql = "insert into tblbooking(RoomId,BookingNumber,UserID,CheckinDate,CheckoutDate,CantAdult,CantChild)values(:rid,:booknum,:uid,:checkindate,:checkoutdate,:cantadult,:cantchild)";
+			$sql = "insert into tblbooking(RoomId,UserID,CheckinDate,CheckoutDate,CantAdult,CantChild)values(:rid,:uid,:checkindate,:checkoutdate,:cantadult,:cantchild)";
 			$query = $dbh->prepare($sql);
 			$query->bindParam(':rid', $rid, PDO::PARAM_STR);
-			$query->bindParam(':booknum', $booknum, PDO::PARAM_STR);
 			$query->bindParam(':uid', $uid, PDO::PARAM_STR);
 			$query->bindParam(':checkindate', $checkindate, PDO::PARAM_STR);
 			$query->bindParam(':checkoutdate', $checkoutdate, PDO::PARAM_STR);
@@ -39,8 +33,7 @@ if (strlen($_SESSION['hbmsuid'] == 0)) {
 
 			$LastInsertId = $dbh->lastInsertId();
 			if ($LastInsertId > 0) {
-				$mostrar = ["Éxito!", "Su reserva ha sido enviada.", "success"];
-				$lin = "my-booking.php";
+				$mostrar = ["Éxito!", "Su reserva ha sido enviada, en breve nos pondremos en contacto para confirmar disponibilidad", "success"];
 			} else {
 				$mostrar = ["Error!", "Algo salió mal. Por favor, vuelva a intentarlo", "error"];
 			}
@@ -66,6 +59,39 @@ if (strlen($_SESSION['hbmsuid'] == 0)) {
 		<link rel="stylesheet" href="style.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script type="text/javascript" src="js/sweetalert.js"></script>
+		<script type="text/javascript">
+			function validateForm() {
+				var msg3 = document.getElementById('msg3');
+				var msg4 = document.getElementById('msg4');
+				var cadu = document.getElementById('cadu');
+				var cnin = document.getElementById('cnin');
+
+
+				msg3.innerText = '';
+				msg4.innerText = '';
+				color = '#FF0000';
+				color1 = '#f1e398';
+				var adu = document.reserva.cantadult.value;
+				var nin = document.reserva.cantchild.value;
+
+				if (adu == '') {
+					msg3.innerText = 'Este campo es obligatorio';
+					cadu.style.borderColor = color;
+					return false;
+				} else {
+					cadu.style.borderColor = color1;
+				}
+
+				if (nin == '') {
+					msg4.innerText = 'Este campo es obligatorio';
+					cnin.style.borderColor = color;
+					return false;
+				} else {
+					cnin.style.borderColor = color1;
+				}
+				return true;
+			}
+		</script>
 
 	</head>
 
@@ -91,7 +117,7 @@ if (strlen($_SESSION['hbmsuid'] == 0)) {
 					<div class="col-12">
 						<!-- Form -->
 						<div class="riohotel-contact-form">
-							<form action="#" method="post">
+							<form action="" method="post" onsubmit="return validateForm();" name="reserva">
 								<div class="row">
 									<?php
 									$uid = $_SESSION['hbmsuid'];
@@ -103,15 +129,15 @@ if (strlen($_SESSION['hbmsuid'] == 0)) {
 									$cnt = 1;
 									if ($query->rowCount() > 0) {
 										foreach ($results as $row) {               ?>
-											<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+											<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 												<h5>Nombre:</h5>
 												<input type="text" value="<?php echo $row->FullName; ?>" name="name" class="form-control mb-30" required="true" readonly="true">
 											</div>
-											<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+											<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 												<h5>Número telefónico:</h5>
 												<input type="text" name="phone" class="form-control mb-30" required="true" maxlength="10" pattern="[0-9]+" value="<?php echo $row->MobileNumber; ?>" readonly="true">
 											</div>
-											<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+											<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 												<h5>Correo electrónico:</h5>
 												<input type="email" value="<?php echo $row->Email; ?>" class="form-control mb-30" name="email" required="true" readonly="true">
 											</div>
@@ -128,29 +154,35 @@ if (strlen($_SESSION['hbmsuid'] == 0)) {
 									$cnt = 1;
 									if ($query->rowCount() > 0) {
 										foreach ($results as $row) {               ?>
-											<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+											<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 												<h5>Habitación:</h5>
 												<input type="text" value="<?php echo $row->RoomName; ?>" class="form-control mb-30" readonly="true">
 											</div>
 									<?php $cnt = $cnt + 1;
 										}
 									} ?>
-									<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+									<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 										<h5>Fecha de ingreso:</h5>
-										<input type="date" value="" class="form-control mb-30" name="checkindate" required="true">
+										<input type="date" value="" class="form-control mb-30" name="checkindate" required="true" id="fing" <?php
+																																			$min = new DateTime();
+																																			?> min=<?= $min->format("Y-m-d") ?>>
 									</div>
-									<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+									<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 										<h5>Fecha de salida:</h5>
-										<input type="date" value="" class="form-control mb-30" name="checkoutdate" required="true">
+										<input type="date" value="" class="form-control mb-30" name="checkoutdate" required="true" id="fsal" <?php
+																																				$min = new DateTime();
+																																				?> min=<?= $min->format("Y-m-d") ?>>
 									</div>
 
-									<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+									<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 										<h5>Cantidad de adultos:</h5>
-										<input type="number" class="form-control mb-30" name="cantadult" min="1" required="true">
+										<input type="number" class="form-control mb-30" name="cantadult" id="cadu" min="1" onchange="validateForm()">
+										<span id="msg3" style="color:red"> </span>
 									</div>
-									<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+									<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 										<h5>Cantidad de niños:</h5>
-										<input type="number" class="form-control mb-30" name="cantchild" min="0" required="true">
+										<input type="number" class="form-control mb-30" name="cantchild" id="cnin" min="0" onchange="validateForm()">
+										<span id="msg4" style="color:red"> </span>
 									</div>
 									<div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
 										<button type="submit" name="submit" class="btn riohotel-btn mt-15">Solicitar reserva</button>
@@ -190,7 +222,9 @@ if (strlen($_SESSION['hbmsuid'] == 0)) {
 					<?= json_encode($mostrar[1]) ?>,
 					<?= json_encode($mostrar[2]) ?>
 				).then(() => {
-					location.href = <?= $lin; ?>
+					if (<?= json_encode($mostrar[2]) ?> == 'success') {
+						location.href = 'my-booking.php'
+					}
 				});
 			</script>
 		<?php

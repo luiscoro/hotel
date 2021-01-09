@@ -83,19 +83,19 @@ if (strlen($_SESSION['hbmsuid'] == 0)) {
 									$cnt = 1;
 									if ($query->rowCount() > 0) {
 										foreach ($results as $row) {               ?>
-											<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+											<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 												<h5>Nombre:</h5>
 												<input type="text" value="<?php echo $row->FullName; ?>" name="fname" class="form-control mb-30">
 											</div>
-											<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+											<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 												<h5>Número telefónico:</h5>
 												<input type="text" name="mobno" class="form-control mb-30" maxlength="10" pattern="[0-9]+" value="<?php echo $row->MobileNumber; ?>">
 											</div>
-											<div class=" col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+											<div class=" col-12 wow fadeInUp" data-wow-delay="100ms">
 												<h5>Correo electrónico:</h5>
 												<input type="email" name="email" value="<?php echo $row->Email; ?>" class="form-control mb-30" placeholder="Correo electrónico">
 											</div>
-											<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+											<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 												<h5>Fecha de registro:</h5>
 												<input type="text" value="<?php echo $row->RegDate; ?>" class="form-control mb-30" readonly="true">
 											</div>

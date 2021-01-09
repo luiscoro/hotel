@@ -2320,6 +2320,8 @@ html .ui-button.ui-state-disabled:active {
 .riohotel-contact-form {
   position: relative;
   z-index: 1;
+  width: 360px;
+  margin: 0 auto;
 }
 .riohotel-contact-form h2 {
   margin-bottom: 30px;

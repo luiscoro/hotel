@@ -5,7 +5,9 @@ $mostrar = false;
 session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
-
+if (strlen($_SESSION['hbmsuid'] != 0)) {
+	header('location:index.php');
+}
 if (isset($_POST['login'])) {
 	$email = $_POST['email'];
 	$password = md5($_POST['password']);
@@ -89,22 +91,6 @@ if (isset($_POST['login'])) {
 	<link rel="stylesheet" href="style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/sweetalert.js"></script>
-	<script type="text/javascript">
-		function checklogin() {
-			var patron = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
-			if (document.login.email.value.search(patron) != 0) {
-				document.getElementById("messageemail").innerHTML = "El correo no es válido";
-				document.login.email.focus();
-				return false;
-			}
-			if (document.login.password.value.length < 8 || document.login.password.value.length > 15) {
-				document.getElementById("messagepassword").innerHTML = "La contraseña debe tener entre 8 y 15 caracteres";
-				document.login.password.focus();
-				return false;
-			}
-			return true;
-		}
-	</script>
 
 </head>
 
@@ -132,23 +118,21 @@ if (isset($_POST['login'])) {
 				<div class="col-12">
 					<!-- Form -->
 					<div class="riohotel-contact-form">
-						<form method="post" onsubmit="return checklogin();" name="login">
+						<form method="post">
 							<div class="row">
-								<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+								<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 									<h5>Correo electrónico:</h5>
 									<input type="email" name="email" required="true" class="form-control mb-30" value="<?php if (isset($_COOKIE["user_login"])) {
 																															echo $_COOKIE["user_login"];
 																														} ?>">
-									<span id="messageemail" style="color:red"> </span>
 								</div>
-								<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+								<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 									<h5>Contraseña:</h5>
 									<input type="password" name="password" required="true" class="form-control mb-30" value="<?php if (isset($_COOKIE["userpassword"])) {
 																																	echo $_COOKIE["userpassword"];
 																																} ?>">
-									<span id="messagepassword" style="color:red"> </span>
 								</div>
-								<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+								<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 									<input type="checkbox" id="remember" name="remember" <?php if (isset($_COOKIE["user_login"])) { ?> checked <?php } ?> />
 									<label for="keep_me_logged_in">Mantener la sesión iniciada</label>
 								</div>

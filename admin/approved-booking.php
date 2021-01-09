@@ -136,7 +136,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 														$total_rows = $query1->rowCount();
 														$total_pages = ceil($total_rows / $no_of_records_per_page);
 
-														$sql = "SELECT tbluser.*,tblbooking.BookingNumber,tblbooking.Status,tblbooking.BookingDate from tblbooking join tbluser on tblbooking.UserID=tbluser.ID where tblbooking.Status='Aprobada' LIMIT $offset, $no_of_records_per_page";
+														$sql = "SELECT tbluser.*,tblbooking.ID,tblbooking.Status,tblbooking.BookingDate from tblbooking join tbluser on tblbooking.UserID=tbluser.ID where tblbooking.Status='Aprobada' LIMIT $offset, $no_of_records_per_page";
 														$query = $dbh->prepare($sql);
 														$query->execute();
 														$results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -146,7 +146,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 															foreach ($results as $row) {               ?>
 																<tr>
 																	<td class="text-center"><?php echo htmlentities($cnt); ?></td>
-																	<td class="font-w600"><?php echo htmlentities($row->BookingNumber); ?></td>
+																	<td class="font-w600"><?php echo htmlentities($row->ID); ?></td>
 																	<td class="font-w600"><?php echo htmlentities($row->FullName); ?></td>
 																	<td class="d-none d-sm-table-cell"><?php echo htmlentities($row->Email); ?></td>
 																	<td class="d-none d-sm-table-cell"><?php echo htmlentities($row->MobileNumber); ?></td>
@@ -156,13 +156,13 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 																	</td>
 																	<?php if ($row->Status == "") { ?>
 
-																		<td class="font-w600"><?php echo "Not Updated Yet"; ?></td>
+																		<td class="font-w600"><?php echo "No actualizada aún"; ?></td>
 																	<?php } else { ?>
 																		<td class="d-none d-sm-table-cell">
 																			<span class="badge badge-primary"><?php echo htmlentities($row->Status); ?></span>
 																		</td>
 																	<?php } ?>
-																	<td class="d-none d-sm-table-cell"><a href="view-booking-detail.php?bookingid=<?php echo htmlentities($row->BookingNumber); ?>"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+																	<td class="d-none d-sm-table-cell"><a href="view-booking-detail.php?bookingid=<?php echo htmlentities($row->ID); ?>"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
 																</tr>
 															<?php $cnt = $cnt + 1;
 															}

@@ -75,7 +75,7 @@ where tblroom.RoomType=:cid";
                         <div class="room-thumbnail-slides mb-50">
                             <?php
                             $cid = intval($_GET['catid']);
-                            $sql = "SELECT tblroom.*,tblroom.id as rmid , tblcategory.Price,tblcategory.ID,tblcategory.CategoryName from tblroom 
+                            $sql = "SELECT tblroom.*,tblroom.id as rmid,tblcategory.ID,tblcategory.CategoryName from tblroom 
 join tblcategory on tblroom.RoomType=tblcategory.ID 
 where tblroom.RoomType=:cid";
                             $query = $dbh->prepare($sql);
@@ -125,7 +125,7 @@ where tblroom.RoomType=:cid";
                         <ul>
                             <?php
                             $cid = intval($_GET['catid']);
-                            $sql = "SELECT tblroom.*,tblroom.id as rmid , tblcategory.Price,tblcategory.ID,tblcategory.CategoryName from tblroom 
+                            $sql = "SELECT tblroom.*,tblroom.id as rmid,tblcategory.ID,tblcategory.CategoryName from tblroom 
 join tblcategory on tblroom.RoomType=tblcategory.ID 
 where tblroom.RoomType=:cid";
                             $query = $dbh->prepare($sql);
@@ -154,7 +154,7 @@ where tblroom.RoomType=:cid";
                     <div class="hotel-reservation--area mb-100">
                         <?php
                         $cid = intval($_GET['catid']);
-                        $sql = "SELECT tblroom.*,tblroom.id as rmid , tblcategory.Price,tblcategory.ID,tblcategory.CategoryName from tblroom 
+                        $sql = "SELECT tblroom.*,tblroom.id as rmid,tblcategory.ID,tblcategory.CategoryName from tblroom 
 join tblcategory on tblroom.RoomType=tblcategory.ID 
 where tblroom.RoomType=:cid";
                         $query = $dbh->prepare($sql);

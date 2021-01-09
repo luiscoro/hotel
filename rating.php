@@ -123,9 +123,22 @@ if (isset($_POST['submit'])) {
                                     <div class="riohotel-contact-form">
                                         <form action="#" method="post">
                                             <div class="row">
-                                                <div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+                                                <div class="col-12 wow fadeInUp" data-wow-delay="100ms">
                                                     <h5>Nombre:</h5>
-                                                    <input type="text" name="name" class="form-control mb-30" required="true">
+                                                    <input type="text" name="name" class="form-control mb-30" <?php
+                                                                                                                $uid = $_SESSION['hbmsuid'];
+                                                                                                                if ($uid == 0) { ?> value="" <?php } else {
+                                                                                                                                                $sql = "SELECT tbluser.FullName from  tbluser where ID=:uid";
+                                                                                                                                                $query = $dbh->prepare($sql);
+                                                                                                                                                $query->bindParam(':uid', $uid, PDO::PARAM_STR);
+                                                                                                                                                $query->execute();
+                                                                                                                                                $results = $query->fetchAll(PDO::FETCH_OBJ);
+                                                                                                                                                $cnt = 1;
+                                                                                                                                                if ($query->rowCount() > 0) {
+                                                                                                                                                    foreach ($results as $row) {               ?>value="<?php echo $row->FullName; ?>" readonly="true" <?php $cnt = $cnt + 1;
+                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                            } ?>>
                                                 </div>
                                                 <div class="col-12 wow fadeInUp" data-wow-delay="100ms">
                                                     <h5>Comentario:</h5>
