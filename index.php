@@ -66,228 +66,217 @@ $images = get_imgs();
 	</section>
 	<!-- Welcome Area End -->
 
-	<!-- About Us Area Start -->
-	<section class="riohotel-about-area section-padding-100-0">
-		<!-- Hotel Search Form Area 
-		<div class="hotel-search-form-area">
-			<div class="container-fluid">
-				<div class="hotel-search-form">
-					<form action="#" method="post">
-						<div class="row justify-content-between align-items-end">
-							<div class="col-6 col-md-2 col-lg-3">
-								<label for="checkIn">Fecha Ingreso</label>
-								<input type="date" class="form-control" id="checkIn" name="checkin-date">
-							</div>
-							<div class="col-6 col-md-2 col-lg-3">
-								<label for="checkOut">Fecha Salida</label>
-								<input type="date" class="form-control" id="checkOut" name="checkout-date">
-							</div>
-							<div class="col-4 col-md-1">
-								<label for="adults">Adultos</label>
-								<select name="adults" id="adults" class="form-control">
-									<option value="01">01</option>
-									<option value="02">02</option>
-									<option value="03">03</option>
-									<option value="04">04</option>
-									<option value="05">05</option>
-									<option value="06">06</option>
-								</select>
-							</div>
-							<div class="col-4 col-md-2 col-lg-1">
-								<label for="children">Niños</label>
-								<select name="children" id="children" class="form-control">
-									<option value="01">01</option>
-									<option value="02">02</option>
-									<option value="03">03</option>
-									<option value="04">04</option>
-									<option value="05">05</option>
-									<option value="06">06</option>
-								</select>
-							</div>
-							<div class="col-12 col-md-3">
-								<button type="submit" class="form-control btn riohotel-btn w-100">Verificar disponibilidad</button>
-							</div>
+	<?php
+	$sql = "SELECT * from  tblabout where ID=1";
+	$query = $dbh->prepare($sql);
+	$query->execute();
+	$results = $query->fetchAll(PDO::FETCH_OBJ);
+	$cnt = 1;
+	if ($query->rowCount() > 0) {
+		foreach ($results as $row) {               ?>
+			<div class="container mt-100">
+				<div class="row align-items-center">
+					<div class="col-12 col-lg-6">
+						<!-- Section Heading -->
+						<div class="section-heading wow fadeInUp" data-wow-delay="100ms">
+							<h2><?php echo $row->Title1; ?></h2>
 						</div>
-					</form>
-				</div>
-			</div>
-		</div>-->
-
-		<div class="container mt-100">
-			<div class="row align-items-center">
-				<div class="col-12 col-lg-6">
-					<!-- Section Heading -->
-					<div class="section-heading wow fadeInUp" data-wow-delay="100ms">
-						<h2>Rio Hotel</h2>
+						<div class="about-us-content mb-100">
+							<h5 class="wow fadeInUp" data-wow-delay="300ms"><?php echo $row->Desc1; ?></h5>
+						</div>
 					</div>
-					<div class="about-us-content mb-100">
-						<h5 class="wow fadeInUp" data-wow-delay="300ms">Es un bonito y acogedor hotel de estilo colonial, ubicado en el centro histórico de Riobamba adornado con pintorescos balcones, a dos cuadras de la Estación del Tren y del Parque Sucre. Contamos con habitaciones cómodas y elegantes desde donde se puede apreciar la arquitectura de la urbe y la majestuosidad de los nevados de la cordillera de los Andes, ideal para turistas o viajeros de negocios.</h5>
-					</div>
-				</div>
 
-				<div class="col-12 col-lg-6">
-					<div class="about-us-thumbnail mb-100 wow fadeInUp" data-wow-delay="700ms">
-						<div class="row no-gutters">
-							<div class="col-6">
-								<div class="single-thumb">
-									<img src="images/about1.jpg" alt="">
+					<div class="col-12 col-lg-6">
+						<div class="about-us-thumbnail mb-100 wow fadeInUp" data-wow-delay="700ms">
+							<div class="row no-gutters">
+								<div class="col-6">
+									<div class="single-thumb">
+										<img src="admin/images/<?php echo $row->Image1; ?>" alt="">
+									</div>
+									<div class="single-thumb">
+										<img src="admin/images/<?php echo $row->Image2; ?>" alt="">
+									</div>
 								</div>
-								<div class="single-thumb">
-									<img src="images/about2.jpg" alt="">
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="single-thumb">
-									<img src="images/about3.jpg" alt="">
+								<div class="col-6">
+									<div class="single-thumb">
+										<img src="admin/images/<?php echo $row->Image3; ?>" alt="">
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="col-12 col-lg-6">
-					<!-- Section Heading -->
-					<div class="section-heading wow fadeInUp" data-wow-delay="100ms">
-						<h2>Riobamba</h2>
+					<div class="col-12 col-lg-6">
+						<!-- Section Heading -->
+						<div class="section-heading wow fadeInUp" data-wow-delay="100ms">
+							<h2><?php echo $row->Title2; ?></h2>
+						</div>
+						<div class="about-us-content mb-100">
+							<h5 class="wow fadeInUp" data-wow-delay="300ms"><?php echo $row->Desc2; ?></h5>
+						</div>
 					</div>
-					<div class="about-us-content mb-100">
-						<h5 class="wow fadeInUp" data-wow-delay="300ms">Capital de la provincia de Chimborazo, ubicada en el centro geográfico del país a 2.764 metros sobre el nivel del mar, caracterizada por la cultura y amabilidad de su gente. Tiene varios atractivos turísticos entre ellos el volcán Chimborazo, el recorrido del tren, el museo de arte religioso, así como joyas arquitectónicas en toda la ciudad.</h5>
-					</div>
-				</div>
 
-				<div class="col-12 col-lg-6">
-					<div class="about-us-thumbnail mb-100 wow fadeInUp" data-wow-delay="200ms">
-						<div class="row no-gutters">
-							<div class="col-6">
-								<div class="single-thumb">
-									<img src="images/about4.jpg" alt="">
+					<div class="col-12 col-lg-6">
+						<div class="about-us-thumbnail mb-100 wow fadeInUp" data-wow-delay="200ms">
+							<div class="row no-gutters">
+								<div class="col-6">
+									<div class="single-thumb">
+										<img src="admin/images/<?php echo $row->Image4; ?>" alt="">
+									</div>
 								</div>
-							</div>
-							<div class="col-6">
-								<div class="single-thumb">
-									<img src="images/about5.jpg" alt="">
+								<div class="col-6">
+									<div class="single-thumb">
+										<img src="admin/images/<?php echo $row->Image5; ?>" alt="">
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+	<?php $cnt = $cnt + 1;
+		}
+	} ?>
 	</section>
 	<!-- About Us Area End -->
 
 	<!-- Service Area Start -->
-	<div class="riohotel-service-area">
-		<div class="container">
-			<div class="row">
-				<h2>Servicios</h2>
-				<div class="col-12">
+	<?php
+	$sql = "SELECT Title3 from  tblabout where ID=1";
+	$query = $dbh->prepare($sql);
+	$query->execute();
+	$results = $query->fetchAll(PDO::FETCH_OBJ);
+	$cnt = 1;
+	if ($query->rowCount() > 0) {
+		foreach ($results as $row) {               ?>
+			<div class="riohotel-service-area">
+				<div class="container">
+					<div class="row">
+						<h2><?php echo $row->Title3; ?></h2>
+						<div class="col-12">
 
-					<div class=" service-content d-flex align-items-center justify-content-between">
-						<!-- Single Service Area -->
+							<div class=" service-content d-flex align-items-center justify-content-between">
+								<!-- Single Service Area -->
 
-						<?php
-						$sql = "SELECT * from tblfacility LIMIT 0, 5";
-						$query = $dbh->prepare($sql);
-						$query->execute();
-						$results = $query->fetchAll(PDO::FETCH_OBJ);
-						if ($query->rowCount() > 0) {
-							foreach ($results as $row) {               ?>
-								<div class=" single-service--area mb-100 wow fadeInUp" data-wow-delay="100ms">
-									<img src="admin/images/<?php echo $row->Image; ?>" alt="">
-									<h5 display: inline-block; vertical-align: top;><?php echo htmlentities($row->FacilityTitle); ?></h5>
-								</div>
-						<?php
-							}
-						} ?>
-					</div>
+								<?php
+								$sql = "SELECT * from tblfacility LIMIT 0, 5";
+								$query = $dbh->prepare($sql);
+								$query->execute();
+								$results = $query->fetchAll(PDO::FETCH_OBJ);
+								if ($query->rowCount() > 0) {
+									foreach ($results as $row) {               ?>
+										<div class=" single-service--area mb-100 wow fadeInUp" data-wow-delay="100ms">
+											<img src="admin/images/<?php echo $row->Image; ?>" alt="">
+											<h5 display: inline-block; vertical-align: top;><?php echo htmlentities($row->FacilityTitle); ?></h5>
+										</div>
+								<?php
+									}
+								} ?>
+							</div>
 
-					<div class=" service-content d-flex align-items-center justify-content-between">
-						<!-- Single Service Area -->
+							<div class=" service-content d-flex align-items-center justify-content-between">
+								<!-- Single Service Area -->
 
-						<?php
-						$sql = "SELECT * from tblfacility LIMIT 5, 10";
-						$query = $dbh->prepare($sql);
-						$query->execute();
-						$results = $query->fetchAll(PDO::FETCH_OBJ);
-						if ($query->rowCount() > 0) {
-							foreach ($results as $row) {               ?>
-								<div class=" single-service--area mb-100 wow fadeInUp" data-wow-delay="100ms">
-									<img src="admin/images/<?php echo $row->Image; ?>" alt="">
-									<h5 display: inline-block; vertical-align: top;><?php echo htmlentities($row->FacilityTitle); ?></h5>
-								</div>
-						<?php
-							}
-						} ?>
-					</div>
+								<?php
+								$sql = "SELECT * from tblfacility LIMIT 5, 10";
+								$query = $dbh->prepare($sql);
+								$query->execute();
+								$results = $query->fetchAll(PDO::FETCH_OBJ);
+								if ($query->rowCount() > 0) {
+									foreach ($results as $row) {               ?>
+										<div class=" single-service--area mb-100 wow fadeInUp" data-wow-delay="100ms">
+											<img src="admin/images/<?php echo $row->Image; ?>" alt="">
+											<h5 display: inline-block; vertical-align: top;><?php echo htmlentities($row->FacilityTitle); ?></h5>
+										</div>
+								<?php
+									}
+								} ?>
+							</div>
 
-					<div class=" service-content d-flex align-items-center justify-content-between">
-						<!-- Single Service Area -->
+							<div class=" service-content d-flex align-items-center justify-content-between">
+								<!-- Single Service Area -->
 
-						<?php
-						$sql = "SELECT * from tblfacility LIMIT 10, 15";
-						$query = $dbh->prepare($sql);
-						$query->execute();
-						$results = $query->fetchAll(PDO::FETCH_OBJ);
-						if ($query->rowCount() > 0) {
-							foreach ($results as $row) {               ?>
-								<div class=" single-service--area mb-100 wow fadeInUp" data-wow-delay="100ms">
-									<img src="admin/images/<?php echo $row->Image; ?>" alt="">
-									<h5 display: inline-block; vertical-align: top;><?php echo htmlentities($row->FacilityTitle); ?></h5>
-								</div>
-						<?php
-							}
-						} ?>
+								<?php
+								$sql = "SELECT * from tblfacility LIMIT 10, 15";
+								$query = $dbh->prepare($sql);
+								$query->execute();
+								$results = $query->fetchAll(PDO::FETCH_OBJ);
+								if ($query->rowCount() > 0) {
+									foreach ($results as $row) {               ?>
+										<div class=" single-service--area mb-100 wow fadeInUp" data-wow-delay="100ms">
+											<img src="admin/images/<?php echo $row->Image; ?>" alt="">
+											<h5 display: inline-block; vertical-align: top;><?php echo htmlentities($row->FacilityTitle); ?></h5>
+										</div>
+								<?php
+									}
+								} ?>
+							</div>
+						</div>
+
+
 					</div>
 				</div>
 
-
-			</div>
-		</div>
+		<?php $cnt = $cnt + 1;
+		}
+	} ?>
 		<!-- Service Area End -->
 
 		<!-- Testimonials Area Start -->
-		<section class="roberto-testimonials-area section-padding-100-0">
-			<div class="container">
-				<div class="row align-items-center">
-					<div class="col-12 col-md-6">
-						<div class="testimonial-thumbnail owl-carousel mb-100">
-							<img src="admin/images/tes.jpg" alt="">
+
+		<?php
+		$sql = "SELECT * from  tblabout where ID=1";
+		$query = $dbh->prepare($sql);
+		$query->execute();
+		$results = $query->fetchAll(PDO::FETCH_OBJ);
+		$cnt = 1;
+		if ($query->rowCount() > 0) {
+			foreach ($results as $row) {               ?>
+				<section class="roberto-testimonials-area section-padding-100-0">
+					<div class="container">
+						<div class="row align-items-center">
+							<div class="col-12 col-md-6">
+								<div class="testimonial-thumbnail owl-carousel mb-100">
+									<img src="admin/images/<?php echo $row->Image6; ?>" alt="">
+								</div>
+							</div>
+
+							<div class="col-12 col-md-6">
+								<!-- Section Heading -->
+								<div class="section-heading">
+									<h2><?php echo $row->Title4; ?></h2>
+								</div>
+								<!-- Testimonial Slide -->
+								<div class="testimonial-slides owl-carousel mb-100">
+
+									<!-- Single Testimonial Slide -->
+									<?php
+									$sql = "SELECT * from  tbltestimony WHERE Status=1";
+									$query = $dbh->prepare($sql);
+									$query->execute();
+									$results = $query->fetchAll(PDO::FETCH_OBJ);
+									$cnt = 1;
+									if ($query->rowCount() > 0) {
+										foreach ($results as $row) {               ?>
+											<div class="single-testimonial-slide">
+												<h5>"<?php echo htmlentities($row->Testimony); ?>"</h5>
+												<div class="rating-title">
+													<h6><?php echo htmlentities($row->Name); ?> <span>/ <?php echo htmlentities($row->Date); ?></span></h6>
+												</div>
+											</div>
+									<?php $cnt = $cnt + 1;
+										}
+									} ?>
+
+								</div>
+							</div>
 						</div>
 					</div>
+				</section>
 
-					<div class="col-12 col-md-6">
-						<!-- Section Heading -->
-						<div class="section-heading">
-							<h2>Testimonios</h2>
-						</div>
-						<!-- Testimonial Slide -->
-						<div class="testimonial-slides owl-carousel mb-100">
-
-							<!-- Single Testimonial Slide -->
-							<?php
-							$sql = "SELECT * from  tbltestimony";
-							$query = $dbh->prepare($sql);
-							$query->execute();
-							$results = $query->fetchAll(PDO::FETCH_OBJ);
-							$cnt = 1;
-							if ($query->rowCount() > 0) {
-								foreach ($results as $row) {               ?>
-									<div class="single-testimonial-slide">
-										<h5>"<?php echo htmlentities($row->Testimony); ?>"</h5>
-										<div class="rating-title">
-											<h6><?php echo htmlentities($row->Name); ?> <span>/ <?php echo htmlentities($row->Date); ?></span></h6>
-										</div>
-									</div>
-							<?php $cnt = $cnt + 1;
-								}
-							} ?>
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+		<?php $cnt = $cnt + 1;
+			}
+		} ?>
 		<!-- Testimonials Area End -->
 
 		<!-- Footer Area Start -->

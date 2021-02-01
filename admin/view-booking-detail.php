@@ -7,23 +7,18 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 } else {
 	if (isset($_POST['submit'])) {
 
-
-
 		$bookingid = $_GET['bookingid'];
 		$status = $_POST['status'];
-		$remark = $_POST['remark'];
 
-
-		$sql = "update tblbooking set Status=:status,Remark=:remark where ID=:bookingid";
+		$sql = "update tblbooking set Status=:status where ID=:bookingid";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':status', $status, PDO::PARAM_STR);
-		$query->bindParam(':remark', $remark, PDO::PARAM_STR);
 		$query->bindParam(':bookingid', $bookingid, PDO::PARAM_STR);
 
 		$query->execute();
 
-		echo '<script>alert("La reserva ha sido actualizada")</script>';
-		echo "<script>window.location.href ='new-booking.php'</script>";
+		echo '<script>alert("El estado de reserva ha sido actualizado")</script>';
+		echo "<script>window.location.href ='all-booking.php'</script>";
 	}
 ?>
 	<!DOCTYPE HTML>
@@ -127,11 +122,10 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 
 												$bookid = $_GET['bookingid'];
 
-												$sql = "SELECT tblbooking.ID,tbluser.FullName,tbluser.MobileNumber,tbluser.Email,tblbooking.CheckinDate,tblbooking.CheckoutDate,tblbooking.BookingDate,tblbooking.Remark,tblbooking.Status,tblbooking.UpdationDate,tblcategory.CategoryName,tblcategory.Description,tblroom.Price,tblroom.RoomName,tblroom.MaxAdult,tblroom.MaxChild,tblroom.RoomDesc,tblroom.NoofBed,tblroom.Image,tblroom.RoomFacility 
+												$sql = "SELECT tblbooking.ID,tblbooking.UserName,tblbooking.UserMobile,tblbooking.UserEmail,tblbooking.CheckinDate,tblbooking.CheckoutDate,tblbooking.BookingDate,tblbooking.Remark,tblbooking.Status,tblbooking.UpdationDate,tblcategory.CategoryName,tblroom.Price,tblroom.RoomName,tblroom.RoomDesc,tblroom.NoofBed,tblroom.Image,tblroom.RoomFacility 
 from tblbooking 
 join tblroom on tblbooking.RoomId=tblroom.ID 
-join tblcategory on tblcategory.ID=tblroom.RoomType 
-join tbluser on tblbooking.UserID=tbluser.ID  
+join tblcategory on tblcategory.ID=tblroom.RoomType   
 where tblbooking.ID=:bookid";
 												$query = $dbh->prepare($sql);
 												$query->bindParam(':bookid', $bookid, PDO::PARAM_STR);
@@ -146,20 +140,20 @@ where tblbooking.ID=:bookid";
 																<th colspan="4" style="color: #180a01;font-weight: bold;text-align: center;font-size: 20px"> Número de Reserva: <?php echo $row->ID; ?></th>
 															</tr>
 															<tr>
-																<th colspan="4" style="color:  #6c757d;font-weight: bold;font-size: 15px"> Detalles del cliente:</th>
+																<th colspan="4" style="color:  #6c757d;font-weight: bold;font-size: 15px"> Detalles del usuario:</th>
 															</tr>
 															<tr>
 																<th>Nombre:</th>
-																<td><?php echo $row->FullName; ?></td>
+																<td><?php echo $row->UserName; ?></td>
 																<th>Número telefónico:</th>
-																<td><?php echo $row->MobileNumber; ?></td>
+																<td><?php echo $row->UserMobile; ?></td>
 															</tr>
 
 
 															<tr>
 
 																<th>Correo electrónico:</th>
-																<td><?php echo $row->Email; ?></td>
+																<td><?php echo $row->UserEmail; ?></td>
 															</tr>
 															<tr>
 																<th>Fecha de ingreso:</th>
@@ -220,13 +214,7 @@ where tblbooking.ID=:bookid";
 																		if ($row->Status == "") {
 																			echo "Pendiente";
 																		}; ?></td>
-																<th>Comentario</th>
-																<?php if ($row->Status == "") { ?>
 
-																	<td><?php echo "Pendiente de actualizar"; ?></td>
-																<?php } else { ?> <td><?php echo htmlentities($row->Remark); ?>
-																	</td>
-																<?php } ?>
 															</tr>
 
 
@@ -256,17 +244,6 @@ where tblbooking.ID=:bookid";
 																	<div class="modal-body">
 																		<table class="table table-bordered table-hover data-tables">
 																			<form method="post" name="submit">
-
-
-
-																				<tr>
-																					<th>Comentario :</th>
-																					<td>
-																						<textarea name="remark" placeholder="Comentario o respuesta hacia el cliente" rows="12" cols="14" class="form-control wd-450" required="true"></textarea>
-																					</td>
-																				</tr>
-
-
 																				<tr>
 																					<th>Estado :</th>
 																					<td>

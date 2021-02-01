@@ -10,14 +10,14 @@ if (isset($_POST['submit'])) {
 	$email = $_POST['email'];
 	$mobile = $_POST['mobile'];
 	$newpassword = md5($_POST['newpassword']);
-	$sql = "SELECT Email FROM tbluser WHERE Email=:email and MobileNumber=:mobile";
+	$sql = "SELECT Email FROM tbladmin WHERE Email=:email and MobileNumber=:mobile";
 	$query = $dbh->prepare($sql);
 	$query->bindParam(':email', $email, PDO::PARAM_STR);
 	$query->bindParam(':mobile', $mobile, PDO::PARAM_STR);
 	$query->execute();
 	$results = $query->fetchAll(PDO::FETCH_OBJ);
 	if ($query->rowCount() > 0) {
-		$con = "update tbluser set Password=:newpassword where Email=:email and MobileNumber=:mobile";
+		$con = "update tbladmin set Password=:newpassword where Email=:email and MobileNumber=:mobile";
 		$chngpwd1 = $dbh->prepare($con);
 		$chngpwd1->bindParam(':email', $email, PDO::PARAM_STR);
 		$chngpwd1->bindParam(':mobile', $mobile, PDO::PARAM_STR);
@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
 		$chngpwd1->execute();
 		$mostrar = ["Éxito!", "La contraseña ha sido restablecida", "success"];
 	} else {
-		$mostrar = ["Error!", "Correo electrónico o teléfono inválido", "error"];
+		$mostrar = ["Error!", "Correo electrónico o el teléfono no existe", "error"];
 	}
 }
 
@@ -52,16 +52,113 @@ if (isset($_POST['submit'])) {
 
 	<script type="text/javascript">
 		function valid() {
-			if (document.chngpwd.newpassword.value != document.chngpwd.confirmpassword.value) {
-				swal(
-					"Error!",
-					"La contraseña nueva y de confirmación no coinciden",
-					"error"
-				);
-				document.chngpwd.confirmpassword.focus();
+			var msg1 = document.getElementById('msg1');
+			var msg2 = document.getElementById('msg2');
+			var msg3 = document.getElementById('msg3');
+			var msg4 = document.getElementById('msg4');
+
+			var cor = document.getElementById('emailf');
+			var num = document.getElementById('mobnof');
+			var pas = document.getElementById('newpf');
+			var con = document.getElementById('conpf');
+
+			msg1.innerText = '';
+			msg2.innerText = '';
+			msg3.innerText = '';
+			msg4.innerText = '';
+
+			color = '#FF0000';
+			color1 = '#f1e398';
+
+
+			var em = document.chngpwd.email.value;
+			var numtel = document.chngpwd.mobile.value;
+			var paswd = document.chngpwd.newpassword.value;
+			var cpasw = document.chngpwd.confirmpassword.value;
+
+			if (em == '') {
+				msg1.innerText = 'Este campo es obligatorio';
+				cor.style.borderColor = color;
 				return false;
+			} else {
+				cor.style.borderColor = color1;
 			}
+
+			if (!validateEmail(em)) {
+				msg1.innerText = 'El correo ingresado no es válido';
+				cor.style.borderColor = color;
+				return false;
+			} else {
+				cor.style.borderColor = color1;
+			}
+
+			if (numtel == '') {
+				msg2.innerText = 'Este campo es obligatorio';
+				num.style.borderColor = color;
+				return false;
+			} else {
+				num.style.borderColor = color1;
+			}
+
+			if (!validateMob(numtel)) {
+				msg2.innerText = 'El teléfono debe incluir sólo números';
+				num.style.borderColor = color;
+				return false;
+			} else {
+				num.style.borderColor = color1;
+			}
+
+			if (paswd == '') {
+				msg3.innerText = 'Este campo es obligatorio';
+				pas.style.borderColor = color;
+				return false;
+			} else {
+				pas.style.borderColor = color1;
+			}
+
+			if (paswd.length < 8 || paswd.length > 15) {
+				msg3.innerText = 'La contraseña debe tener entre 8 y 15 caracteres';
+				pas.style.borderColor = color;
+				return false;
+			} else {
+				pas.style.borderColor = color1;
+			}
+
+			if (!validatePassword(paswd)) {
+				msg3.innerText = 'La contraseña debe incluir al menos:1 letra mayúscula, 1 letra minúscula y 1 número';
+				pas.style.borderColor = color;
+				return false;
+			} else {
+				pas.style.borderColor = color1;
+			}
+
+			if (paswd != cpasw) {
+				msg4.innerText = 'Las contraseñas no coinciden';
+				pas.style.borderColor = color;
+				con.style.borderColor = color;
+				return false;
+			} else {
+				pas.style.borderColor = color1;
+				con.style.borderColor = color1;
+			}
+
+
 			return true;
+		}
+
+		function validateMob(mob) {
+			var re = /^([0-9])*$/;
+			return re.test(String(mob));
+		}
+
+		function validateEmail(email) {
+			var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			return re.test(String(email).toLowerCase());
+		}
+
+		function validatePassword(password) {
+			var re = /^(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ]/;
+			return re.test(String(password));
 		}
 	</script>
 
@@ -91,26 +188,27 @@ if (isset($_POST['submit'])) {
 				<div class="col-12">
 					<!-- Form -->
 					<div class="riohotel-contact-form">
-						<form method="post" name="chngpwd" onSubmit="return valid();">
+						<form method="post" name="chngpwd" onsubmit="return valid();" autocomplete="off">
 							<div class="row">
-								<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+								<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 									<h5>Correo electrónico:</h5>
-									<input type="email" name="email" required="true" class="form-control mb-30">
+									<input type="email" name="email" id="emailf" class="form-control mb-30" onchange="valid()">
+									<span id="msg1" style="color:red"> </span>
 								</div>
-								<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+								<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 									<h5>Número telefónico:</h5>
-									<input type="text" name="mobile" required="true" class="form-control mb-30" maxlength="10" pattern="[0-9]+">
+									<input type="text" name="mobile" id="mobnof" class="form-control mb-30" maxlength="15" onchange="valid()">
+									<span id="msg2" style="color:red"> </span>
 								</div>
-								<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+								<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 									<h5>Nueva contraseña:</h5>
-									<input type="password" name="newpassword" required="true" class="form-control mb-30">
+									<input type="password" name="newpassword" id="newpf" class="form-control mb-30" onchange="valid()">
+									<span id="msg3" style="color:red"> </span>
 								</div>
-								<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+								<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 									<h5>Confirmar nueva contraseña:</h5>
-									<input type="password" name="confirmpassword" required="true" class="form-control mb-30">
-								</div>
-								<div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
-									<a href="signin.php">Iniciar sesión</a>
+									<input type="password" name="confirmpassword" id="conpf" class="form-control mb-30" onchange="valid()">
+									<span id="msg4" style="color:red"> </span>
 								</div>
 								<div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
 									<button type="submit" name="submit" class="btn riohotel-btn mt-15">Restablecer</button>
@@ -151,7 +249,9 @@ if ($mostrar !== false) {
 			<?= json_encode($mostrar[0]) ?>,
 			<?= json_encode($mostrar[1]) ?>,
 			<?= json_encode($mostrar[2]) ?>
-		);
+		).then(() => {
+			location.href = 'signin.php'
+		});
 	</script>
 <?php
 } ?>

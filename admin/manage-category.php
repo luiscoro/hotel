@@ -5,7 +5,6 @@ include('includes/dbconnection.php');
 if (strlen($_SESSION['hbmsaid'] == 0)) {
 	header('location:logout.php');
 } else {
-	// Code for deleting product from cart
 	if (isset($_GET['delid'])) {
 		$rid = intval($_GET['delid']);
 		$sql = "delete from tblcategory where ID=:rid";
@@ -119,7 +118,6 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 														<tr>
 															<th class="text-center">No.</th>
 															<th>Título</th>
-															<th class="d-none d-sm-table-cell">Descripción</th>
 															<th class="d-none d-sm-table-cell" style="width: 15%;">Acción</th>
 														</tr>
 													</thead>
@@ -152,8 +150,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 																<tr>
 																	<td class="text-center"><?php echo htmlentities($cnt); ?></td>
 																	<td class="font-w600"><?php echo htmlentities($row->CategoryName); ?></td>
-																	<td class="d-none d-sm-table-cell"><?php echo htmlentities($row->Description); ?></td>
-																	<td class="d-none d-sm-table-cell"><a href="manage-category.php?delid=<?php echo ($row->ID); ?>" onclick="return confirm('Do you really want to Delete ?');">Eliminar</a></td>
+																	<td class="d-none d-sm-table-cell"><a href="manage-category.php?delid=<?php echo ($row->ID); ?>" onclick="return confirm('¿Desea realmente eliminar la categoría?');">Eliminar</a></td>
 																</tr>
 														<?php $cnt = $cnt + 1;
 															}

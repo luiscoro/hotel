@@ -116,7 +116,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 													<thead>
 														<tr>
 															<th class="text-center">No.</th>
-															<th>Nombre</th>
+															<th>Usuario</th>
 															<th class="d-none d-sm-table-cell">Correo Electrónico</th>
 															<th class="d-none d-sm-table-cell">Número telefónico</th>
 															<th class="d-none d-sm-table-cell">Fecha de consulta</th>

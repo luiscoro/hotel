@@ -10,8 +10,6 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 		$hbmsaid = $_SESSION['hbmsaid'];
 		$roomtype = $_POST['roomtype'];
 		$roomname = $_POST['roomname'];
-		$maxadult = $_POST['maxadult'];
-		$maxchild = $_POST['maxchild'];
 		$roomfac = implode(',', $_POST['roomfac']);
 		$roomdes = $_POST['roomdes'];
 		$nobed = $_POST['nobed'];
@@ -38,12 +36,10 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 			move_uploaded_file($_FILES["image1"]["tmp_name"], "images/" . $img1);
 			move_uploaded_file($_FILES["image2"]["tmp_name"], "images/" . $img2);
 			move_uploaded_file($_FILES["image3"]["tmp_name"], "images/" . $img3);
-			$sql = "insert into tblroom(RoomType,RoomName,MaxAdult,MaxChild,RoomDesc,NoofBed,Image,Image1,Image2,image3,RoomFacility,Price)values(:roomtype,:roomname,:maxadult,:maxchild,:roomdes,:nobed,:img,:img1,:img2,:img3,:roomfac,:price)";
+			$sql = "insert into tblroom(RoomType,RoomName,RoomDesc,NoofBed,Image,Image1,Image2,image3,RoomFacility,Price)values(:roomtype,:roomname,:roomdes,:nobed,:img,:img1,:img2,:img3,:roomfac,:price)";
 			$query = $dbh->prepare($sql);
 			$query->bindParam(':roomtype', $roomtype, PDO::PARAM_STR);
 			$query->bindParam(':roomname', $roomname, PDO::PARAM_STR);
-			$query->bindParam(':maxadult', $maxadult, PDO::PARAM_STR);
-			$query->bindParam(':maxchild', $maxchild, PDO::PARAM_STR);
 			$query->bindParam(':roomdes', $roomdes, PDO::PARAM_STR);
 			$query->bindParam(':nobed', $nobed, PDO::PARAM_STR);
 			$query->bindParam(':price', $price, PDO::PARAM_STR);
@@ -59,7 +55,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 				echo '<script>alert("La habitación ha sido agregada.")</script>';
 				echo "<script>window.location.href ='add-room.php'</script>";
 			} else {
-				echo '<script>alert("Something Went Wrong. Please try again")</script>';
+				echo '<script>alert("Un error inesperado ocurrió, inténtelo de nuevo")</script>';
 			}
 		}
 	}
@@ -180,8 +176,6 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 
 														</select> </div>
 													<div class="form-group"> <label for="exampleInputEmail1">Nombre:</label> <input type="text" class="form-control" name="roomname" value="" required='true'> </div>
-													<div class="form-group"> <label for="exampleInputEmail1">Número máximo de adultos:</label> <input type="text" class="form-control" name="maxadult" value="" required='true'> </div>
-													<div class="form-group"> <label for="exampleInputEmail1">Número máximo de niños:</label> <input type="text" class="form-control" name="maxchild" value="" required='true'> </div>
 													<div class="form-group"> <label for="exampleInputEmail1">Descripción:</label> <textarea type="text" class="form-control" name="roomdes" value=""></textarea> </div>
 													<div class="form-group"> <label for="exampleInputEmail1">Número de camas:</label> <input type="text" class="form-control" name="nobed" value="" required='true'> </div>
 													<div class="form-group"> <label for="exampleInputEmail1">Precio:</label> <input type="text" class="form-control" name="price" value="" required='true'> </div>

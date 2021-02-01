@@ -15,7 +15,17 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
         if (!in_array($extension, $allowed_extensions)) {
             echo "<script>alert('La imágen no es válida');</script>";
         } else {
-
+            $sql1 = "SELECT * from tblroom where ID=$eid";
+            $query1 = $dbh->prepare($sql1);
+            $query1->execute();
+            $results = $query1->fetchAll(PDO::FETCH_OBJ);
+            $cnt = 1;
+            if ($query1->rowCount() > 0) {
+                foreach ($results as $row) {
+                    unlink("images/" . $row->Image2);
+                    $cnt = $cnt + 1;
+                }
+            }
             $img = md5($img) . time() . $extension;
             move_uploaded_file($_FILES["image"]["tmp_name"], "images/" . $img);
             $sql = "update tblroom set Image2=:img where ID=:eid";
@@ -34,7 +44,13 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
     <html>
 
     <head>
-        <title>Rio Hotel | Editar Imagen</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Rio Hotel | Editar imagen</title>
+        <link rel="icon" href="../images/logo.png">
+
 
         <script type="application/x-javascript">
             addEventListener("load", function() {

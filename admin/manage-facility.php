@@ -8,6 +8,17 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 	// Code for deleting product from cart
 	if (isset($_GET['delid'])) {
 		$rid = intval($_GET['delid']);
+		$sql1 = "SELECT * from tblfacility where ID=$rid";
+		$query1 = $dbh->prepare($sql1);
+		$query1->execute();
+		$results = $query1->fetchAll(PDO::FETCH_OBJ);
+		$cnt = 1;
+		if ($query1->rowCount() > 0) {
+			foreach ($results as $row) {
+				unlink("images/" . $row->Image);
+				$cnt = $cnt + 1;
+			}
+		}
 		$sql = "delete from tblfacility where ID=:rid";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':rid', $rid, PDO::PARAM_STR);
@@ -20,7 +31,12 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 	<html>
 
 	<head>
-		<title>Rio Hotel | Gestionar Servicio</title>
+		<meta charset="UTF-8">
+		<meta name="description" content="">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Rio Hotel | Servicio</title>
+		<link rel="icon" href="../images/logo.png">
 
 		<script type="application/x-javascript">
 			addEventListener("load", function() {
@@ -113,7 +129,6 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 														<tr>
 															<th class="text-center">No.</th>
 															<th>Nombre</th>
-															<th class="d-none d-sm-table-cell">Descripción</th>
 															<th class="d-none d-sm-table-cell">Imagen</th>
 															<th class="d-none d-sm-table-cell">Fecha de creación</th>
 															<th class="d-none d-sm-table-cell" style="width: 15%;">Acción</th>
@@ -146,7 +161,6 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 																<tr>
 																	<td class="text-center"><?php echo htmlentities($cnt); ?></td>
 																	<td class="font-w600"><?php echo htmlentities($row->FacilityTitle); ?></td>
-																	<td class="d-none d-sm-table-cell"><?php echo htmlentities($row->Description); ?></td>
 																	<td class="d-none d-sm-table-cell"><img src="images/<?php echo $row->Image; ?>" width="100" height="100"></td>
 																	<td class="d-none d-sm-table-cell">
 																		<span class="badge badge-primary"><?php echo htmlentities($row->CreationDate); ?></span>

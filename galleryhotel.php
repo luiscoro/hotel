@@ -37,128 +37,49 @@ include('includes/dbconnection.php');
 	<!--header-->
 
 	<!-- Breadcrumb Area Start -->
-	<div class="breadcrumb-area bg-img bg-overlay jarallax" style="background-image: url(admin/images/galeria/por.jpg);">
-		<div class="container h-100">
-			<div class="row h-100 align-items-center">
-				<div class="col-12">
-					<div class="breadcrumb-content text-center">
-						<h2 class="page-title">Galería Hotel</h2>
+	<?php
+	$sql = "SELECT * from  tblmain where ID=3";
+	$query = $dbh->prepare($sql);
+	$query->execute();
+	$results = $query->fetchAll(PDO::FETCH_OBJ);
+	$cnt = 1;
+	if ($query->rowCount() > 0) {
+		foreach ($results as $row) {               ?>
+			<div class="breadcrumb-area bg-img bg-overlay jarallax" style="background-image: url(admin/images/<?php echo $row->Image; ?>);">
+				<div class="container h-100">
+					<div class="row h-100 align-items-center">
+						<div class="col-12">
+							<div class="breadcrumb-content text-center">
+								<h2 class="page-title"><?php echo $row->Title; ?></h2>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
+	<?php $cnt = $cnt + 1;
+		}
+	} ?>
 	<!-- Breadcrumb Area End -->
 	<br><br><br>
 	<div class="container">
 		<div class="row no-gutters gallerys">
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h1.jpg" target="_blank">
-					<img src="admin/images/galeria/h1.jpg" class="img-fluid">
-				</a>
-			</div>
-			<aside></aside>
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h2.jpg" target="_blank">
-					<img src="admin/images/galeria/h2.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h3.jpg" target="_blank">
-					<img src="admin/images/galeria/h3.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h4.jpg" target="_blank">
-					<img src="admin/images/galeria/h4.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h5.jpg" target="_blank">
-					<img src="admin/images/galeria/h5.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h6.jpg" target="_blank">
-					<img src="admin/images/galeria/h6.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h7.jpg" target="_blank">
-					<img src="admin/images/galeria/h7.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h8.jpg" target="_blank">
-					<img src="admin/images/galeria/h8.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h9.jpg" target="_blank">
-					<img src="admin/images/galeria/h9.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h10.jpg" target="_blank">
-					<img src="admin/images/galeria/h10.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h11.jpg" target="_blank">
-					<img src="admin/images/galeria/h11.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h12.jpg" target="_blank">
-					<img src="admin/images/galeria/h12.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h13.jpg" target="_blank">
-					<img src="admin/images/galeria/h13.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h14.jpg" target="_blank">
-					<img src="admin/images/galeria/h14.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h15.jpg" target="_blank">
-					<img src="admin/images/galeria/h15.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h16.jpg" target="_blank">
-					<img src="admin/images/galeria/h16.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h17.jpg" target="_blank">
-					<img src="admin/images/galeria/h17.jpg" class="img-fluid">
-				</a>
-			</div>
-
-			<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="admin/images/galeria/h18.jpg" target="_blank">
-					<img src="admin/images/galeria/h18.jpg" class="img-fluid">
-				</a>
-			</div>
+			<?php
+			$sql = "SELECT * from tblgalleryh";
+			$query = $dbh->prepare($sql);
+			$query->execute();
+			$results = $query->fetchAll(PDO::FETCH_OBJ);
+			$cnt = 1;
+			if ($query->rowCount() > 0) {
+				foreach ($results as $row) {               ?>
+					<div style='float: left; margin: 0px 0px 0px 0px; padding: 5px;' class="col-lg-4 col-md-4 col-sm-6 col-12">
+						<a href="admin/images/<?php echo $row->Image; ?>" target="_blank">
+							<img src="admin/images/<?php echo $row->Image; ?>" class="img-fluid">
+						</a>
+					</div>
+					<aside></aside>
+			<?php $cnt = $cnt + 1;
+				}
+			} ?>
 		</div>
 	</div>
 

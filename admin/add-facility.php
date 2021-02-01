@@ -9,20 +9,18 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 
 		$hbmsaid = $_SESSION['hbmsaid'];
 		$ftitle = $_POST['ftitle'];
-		$facdes = $_POST['facdes'];
 		$img = $_FILES["image"]["name"];
 		$extension = substr($img, strlen($img) - 4, strlen($img));
 		$allowed_extensions = array(".jpg", "jpeg", ".png", ".gif");
 		if (!in_array($extension, $allowed_extensions)) {
-			echo "<script>alert('Facility image has Invalid format. Only jpg / jpeg/ png /gif format allowed');</script>";
+			echo "<script>alert('Imagen con formato inválido. Solo jpg / jpeg/ png /gif formatos permitidos');</script>";
 		} else {
 
 			$img = md5($img) . time() . $extension;
 			move_uploaded_file($_FILES["image"]["tmp_name"], "images/" . $img);
-			$sql = "insert into tblfacility(FacilityTitle,Description,Image)values(:ftitle,:facdes,:img)";
+			$sql = "insert into tblfacility(FacilityTitle,Image)values(:ftitle,:img)";
 			$query = $dbh->prepare($sql);
 			$query->bindParam(':ftitle', $ftitle, PDO::PARAM_STR);
-			$query->bindParam(':facdes', $facdes, PDO::PARAM_STR);
 			$query->bindParam(':img', $img, PDO::PARAM_STR);
 			$query->execute();
 
@@ -136,10 +134,8 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 											<div class="form-body">
 
 												<form method="post" enctype="multipart/form-data">
-													<div class="form-group"> <label for="exampleInputEmail1">Imagen</label> <input type="file" class="form-control" name="image" value="" required='true'> </div>
-													<div class="form-group"> <label for="exampleInputEmail1">Nombre</label> <input type="text" class="form-control" name="ftitle" value="" required='true'> </div>
-													<div class="form-group"> <label for="exampleInputEmail1">Descripción</label> <textarea type="text" class="form-control" name="facdes" value=""></textarea> </div>
-
+													<div class="form-group"> <label for="exampleInputEmail1">Imagen:</label> <input type="file" class="form-control" name="image" value="" required='true'> </div>
+													<div class="form-group"> <label for="exampleInputEmail1">Nombre:</label> <input type="text" class="form-control" name="ftitle" value="" required='true'> </div>
 													<button type="submit" class="btn btn-default" name="submit">Agregar</button>
 												</form>
 											</div>

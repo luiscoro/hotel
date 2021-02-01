@@ -24,7 +24,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 			echo 'Error: ' . $handle->error;
 		}
 		unset($handle);
-		echo "<script>window.location.href ='dashboard.php'</script>";
+		echo "<script>window.location.href ='manage-slider.php'</script>";
 	}
 ?>
 	<!DOCTYPE HTML>
@@ -121,13 +121,13 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 									<div class="forms">
 										<div class="form-grids widget-shadow" data-example-id="basic-forms">
 											<div class="form-title">
-												<h4>Agregar imagen</h4>
+												<h4>Agregar slider</h4>
 											</div>
 											<div class="form-body">
 
 												<form method="post" enctype="multipart/form-data">
-													<div class="form-group"> <label for="exampleInputEmail1">Imagen</label> <input type="file" class="form-control" name="image" value="" required='true'> </div>
-													<div class="form-group"> <label for="exampleInputEmail1">Texto a mostrar</label> <input type="text" class="form-control" name="title" value="" required='true'> </div>
+													<div class="form-group"> <label for="exampleInputEmail1">Imagen:</label> <input type="file" class="form-control" name="image" value="" required='true'> </div>
+													<div class="form-group"> <label for="exampleInputEmail1">Texto a mostrar:</label> <input type="text" class="form-control" name="title" value="" required='true'> </div>
 
 													<button type="submit" class="btn btn-default" name="submit">Agregar</button>
 												</form>

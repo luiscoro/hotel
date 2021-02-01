@@ -11,41 +11,12 @@ if (strlen($_SESSION['hbmsuid'] != 0)) {
 if (isset($_POST['login'])) {
 	$email = $_POST['email'];
 	$password = md5($_POST['password']);
-	$sql = "SELECT ID FROM tbluser WHERE Email=:email and Password=:password";
 	$sql1 = "SELECT ID FROM tbladmin WHERE Email=:email and Password=:password";
-	$query = $dbh->prepare($sql);
 	$query1 = $dbh->prepare($sql1);
-	$query->bindParam(':email', $email, PDO::PARAM_STR);
-	$query->bindParam(':password', $password, PDO::PARAM_STR);
 	$query1->bindParam(':email', $email, PDO::PARAM_STR);
 	$query1->bindParam(':password', $password, PDO::PARAM_STR);
-	$query->execute();
 	$query1->execute();
-	$results = $query->fetchAll(PDO::FETCH_OBJ);
 	$results1 = $query1->fetchAll(PDO::FETCH_OBJ);
-	if ($query->rowCount() > 0) {
-		foreach ($results as $result) {
-			$_SESSION['hbmsuid'] = $result->ID;
-		}
-		if (!empty($_POST["remember"])) {
-			//COOKIES for username
-			setcookie("user_login", $_POST["email"], time() + (10 * 365 * 24 * 60 * 60));
-			//COOKIES for password
-			setcookie("userpassword", $_POST["password"], time() + (10 * 365 * 24 * 60 * 60));
-		} else {
-			if (isset($_COOKIE["user_login"])) {
-				setcookie("user_login", "");
-				if (isset($_COOKIE["userpassword"])) {
-					setcookie("userpassword", "");
-				}
-			}
-		}
-		$_SESSION['login'] = $_POST['email'];
-		echo "<script type='text/javascript'> document.location ='index.php'; </script>";
-	} else {
-		$mostrar = ["Error!", "Credenciales incorrectas", "error"];
-	}
-
 	if ($query1->rowCount() > 0) {
 		foreach ($results1 as $result1) {
 			$_SESSION['hbmsaid'] = $result1->ID;
@@ -141,11 +112,7 @@ if (isset($_POST['login'])) {
 								</div>
 								<div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
 									<br>
-									<a href="forgot-password.php">¿Olvidaste tu contraseña?</a>
-								</div>
-								<div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
-									<br>
-									<a href="signup.php">¿No tienes una cuenta? Regístrate</a>
+									<a href="forgot-password.php">¿Olvidaste la contraseña?</a>
 								</div>
 							</div>
 						</form>

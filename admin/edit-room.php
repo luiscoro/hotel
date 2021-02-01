@@ -10,20 +10,16 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 		$hbmsaid = $_SESSION['hbmsaid'];
 		$roomtype = $_POST['roomtype'];
 		$roomname = $_POST['roomname'];
-		$maxadult = $_POST['maxadult'];
-		$maxchild = $_POST['maxchild'];
 		$roomfac = implode(',', $_POST['roomfac']);
 		$roomdes = $_POST['roomdes'];
 		$nobed = $_POST['nobed'];
 		$price = $_POST['price'];
 		$eid = $_GET['editid'];
 
-		$sql = "update tblroom set RoomType=:roomtype,RoomName=:roomname,MaxAdult=:maxadult,MaxChild=:maxchild,RoomDesc=:roomdes,NoofBed=:nobed,Price=:price,RoomFacility=:roomfac where ID=:eid";
+		$sql = "update tblroom set RoomType=:roomtype,RoomName=:roomname,RoomDesc=:roomdes,NoofBed=:nobed,Price=:price,RoomFacility=:roomfac where ID=:eid";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':roomtype', $roomtype, PDO::PARAM_STR);
 		$query->bindParam(':roomname', $roomname, PDO::PARAM_STR);
-		$query->bindParam(':maxadult', $maxadult, PDO::PARAM_STR);
-		$query->bindParam(':maxchild', $maxchild, PDO::PARAM_STR);
 		$query->bindParam(':roomdes', $roomdes, PDO::PARAM_STR);
 		$query->bindParam(':nobed', $nobed, PDO::PARAM_STR);
 		$query->bindParam(':price', $price, PDO::PARAM_STR);
@@ -39,7 +35,12 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 	<html>
 
 	<head>
-		<title>Rio Hotel | Editar Habitación</title>
+		<meta charset="UTF-8">
+		<meta name="description" content="">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Rio Hotel | Habitaciones</title>
+		<link rel="icon" href="../images/logo.png">
 
 		<script type="application/x-javascript">
 			addEventListener("load", function() {
@@ -141,7 +142,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 																	<option value="<?php echo $row->RoomType; ?>"><?php echo $row->RoomType; ?></option>
 																	<?php
 
-																	$sql2 = "SELECT * from   tblcategory ";
+																	$sql2 = "SELECT * from tblcategory";
 																	$query2 = $dbh->prepare($sql2);
 																	$query2->execute();
 																	$result2 = $query2->fetchAll(PDO::FETCH_OBJ);
@@ -154,8 +155,6 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 
 																</select> </div>
 															<div class="form-group"> <label for="exampleInputEmail1">Nombre:</label> <input type="text" class="form-control" name="roomname" value="<?php echo $row->RoomName; ?>" required='true'> </div>
-															<div class="form-group"> <label for="exampleInputEmail1">Número máximo de adultos:</label> <input type="text" class="form-control" name="maxadult" value="<?php echo $row->MaxAdult; ?>" required='true'> </div>
-															<div class="form-group"> <label for="exampleInputEmail1">Número máximo de niños:</label> <input type="text" class="form-control" name="maxchild" value="<?php echo $row->MaxChild; ?>" required='true'> </div>
 															<div class="form-group"> <label for="exampleInputEmail1">Descripción:</label> <textarea type="text" class="form-control" name="roomdes"><?php echo $row->RoomDesc; ?></textarea> </div>
 															<div class="form-group"> <label for="exampleInputEmail1">Número de camas:</label> <input type="text" class="form-control" name="nobed" value="<?php echo $row->NoofBed; ?>" required='true'> </div>
 															<div class="form-group"> <label for="exampleInputEmail1">Precio:</label> <input type="text" class="form-control" name="price" value="<?php echo $row->Price; ?>" required='true'> </div>

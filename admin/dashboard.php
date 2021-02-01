@@ -101,20 +101,6 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 				cursor: pointer;
 			}
 
-			.buttonblue {
-				background-color: #008CBA;
-				/* Blue */
-				border: none;
-				color: white;
-				padding: 15px 32px;
-				text-align: center;
-				text-decoration: none;
-				display: inline-block;
-				font-size: 20px;
-				margin: 4px 2px;
-				cursor: pointer;
-			}
-
 			.buttonred {
 				background-color: #f44336;
 				/* Red */
@@ -162,9 +148,9 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 
 					<!--content-->
 					<div class="content">
-
-
-
+						<div class="form-title">
+							<h4 style="color:white; text-align:center;">Administración Principal</h4>
+						</div>
 						<div class="col-md-12">
 							<div class="row">
 								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -180,7 +166,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 											$results2 = $query2->fetchAll(PDO::FETCH_OBJ);
 											$totnewbooking = $query2->rowCount();
 											?>
-											<button class="buttonred"><?php echo htmlentities($totnewbooking); ?></button>
+											<button class="buttonyellow" onclick="location.href='new-booking.php'"><?php echo htmlentities($totnewbooking); ?></button>
 										</div>
 									</div>
 								</div>
@@ -195,7 +181,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 											$results2 = $query2->fetchAll(PDO::FETCH_OBJ);
 											$totappbooking = $query2->rowCount();
 											?>
-											<button class="buttongreen"><?php echo htmlentities($totappbooking); ?></button>
+											<button class="buttongreen" onclick="location.href='approved-booking.php'"><?php echo htmlentities($totappbooking); ?></button>
 										</div>
 									</div>
 								</div>
@@ -210,7 +196,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 											$results2 = $query2->fetchAll(PDO::FETCH_OBJ);
 											$totcanbooking = $query2->rowCount();
 											?>
-											<button class="buttonyellow"><?php echo htmlentities($totcanbooking); ?></button>
+											<button class="buttonred" onclick="location.href='cancelled-booking.php'"><?php echo htmlentities($totcanbooking); ?></button>
 										</div>
 									</div>
 								</div>
@@ -221,16 +207,16 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 							<div class="row">
 								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 									<div class="content-top-1">
-										<h4 class="text-left text-uppercase" style="color: orange"><a href="reg-users.php"><b>Usuarios registrados</b></a></h4>
+										<h4 class="text-left text-uppercase" style="color: orange"><a href="unread-testimonies.php"><b>Testimonios no leídos</b></a></h4>
 										<div class="row vertical-center-box vertical-center-box-tablet">
 											<?php
-											$sql1 = "SELECT * from  tbluser";
+											$sql1 = "SELECT * from  tbltestimony where Status is null";
 											$query1 = $dbh->prepare($sql1);
 											$query1->execute();
 											$results1 = $query1->fetchAll(PDO::FETCH_OBJ);
-											$totregusers = $query1->rowCount();
+											$totunreadtestimonies = $query1->rowCount();
 											?>
-											<button class="buttonblue"><?php echo htmlentities($totregusers); ?></button>
+											<button class="buttonyellow" onclick="location.href='unread-testimonies.php'"><?php echo htmlentities($totunreadtestimonies); ?></button>
 										</div>
 									</div>
 								</div>
@@ -245,7 +231,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 											$results1 = $query1->fetchAll(PDO::FETCH_OBJ);
 											$totreadqueries = $query1->rowCount();
 											?>
-											<button class="buttongreen"><?php echo htmlentities($totreadqueries); ?></button>
+											<button class="buttongreen" onclick="location.href='read-enquiry.php'"><?php echo htmlentities($totreadqueries); ?></button>
 										</div>
 									</div>
 								</div>
@@ -260,7 +246,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 											$results1 = $query1->fetchAll(PDO::FETCH_OBJ);
 											$totunreadqueries = $query1->rowCount();
 											?>
-											<button class="buttonred"><?php echo htmlentities($totunreadqueries); ?></button>
+											<button class="buttonred" onclick="location.href='unread-enquiry.php'"><?php echo htmlentities($totunreadqueries); ?></button>
 										</div>
 									</div>
 								</div>

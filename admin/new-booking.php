@@ -101,7 +101,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 									<div class="forms">
 										<div class="form-grids widget-shadow" data-example-id="basic-forms">
 											<div class="form-title">
-												<h4>Nueva reserva</h4>
+												<h4>Reserva pendiente </h4>
 											</div>
 											<div class="form-body">
 
@@ -110,9 +110,9 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 														<tr>
 															<th class="text-center">No.</th>
 															<th>Número de reserva</th>
-															<th>Cliente</th>
-															<th class="d-none d-sm-table-cell">Correo</th>
-															<th class="d-none d-sm-table-cell">Celular</th>
+															<th>Usuario</th>
+															<th class="d-none d-sm-table-cell">Correo electrónico</th>
+															<th class="d-none d-sm-table-cell">Número telefónico</th>
 															<th class="d-none d-sm-table-cell">Fecha de reserva</th>
 															<th class="d-none d-sm-table-cell">Estado</th>
 															<th class="d-none d-sm-table-cell" style="width: 15%;">Acción</th>
@@ -135,7 +135,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 														$total_rows = $query1->rowCount();
 														$total_pages = ceil($total_rows / $no_of_records_per_page);
 
-														$sql = "SELECT tbluser.*,tblbooking.ID,tblbooking.Status,tblbooking.BookingDate from tblbooking join tbluser on tblbooking.UserID=tbluser.ID where tblbooking.Status is null LIMIT $offset, $no_of_records_per_page";
+														$sql = "SELECT * from tblbooking where Status is null LIMIT $offset, $no_of_records_per_page";
 														$query = $dbh->prepare($sql);
 														$query->execute();
 														$results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -146,16 +146,16 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 																<tr>
 																	<td class="text-center"><?php echo htmlentities($cnt); ?></td>
 																	<td class="font-w600"><?php echo htmlentities($row->ID); ?></td>
-																	<td class="font-w600"><?php echo htmlentities($row->FullName); ?></td>
-																	<td class="d-none d-sm-table-cell"><?php echo htmlentities($row->Email); ?></td>
-																	<td class="d-none d-sm-table-cell"><?php echo htmlentities($row->MobileNumber); ?></td>
+																	<td class="font-w600"><?php echo htmlentities($row->UserName); ?></td>
+																	<td class="d-none d-sm-table-cell"><?php echo htmlentities($row->UserEmail); ?></td>
+																	<td class="d-none d-sm-table-cell"><?php echo htmlentities($row->UserMobile); ?></td>
 
 																	<td class="d-none d-sm-table-cell">
 																		<span class="badge badge-primary"><?php echo htmlentities($row->BookingDate); ?></span>
 																	</td>
 																	<?php if ($row->Status == "") { ?>
 
-																		<td class="font-w600"><?php echo "No actualizada aún"; ?></td>
+																		<td class="font-w600"><?php echo "Pendiente de aprobar"; ?></td>
 																	<?php } else { ?>
 																		<td class="d-none d-sm-table-cell">
 																			<span class="badge badge-primary"><?php echo htmlentities($row->Status); ?></span>

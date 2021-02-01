@@ -22,15 +22,26 @@
             </div>
 
             <div class="col-6">
-                <div class="top-header-content">
-                    <!-- Top Social Area -->
-                    <div class="top-social-area ml-auto">
-                        <a href="https://www.facebook.com/riohotel.ec/"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                        <a href="https://twitter.com/riohotelecuador?lang=es"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                        <a href="https://wa.me/593939172156?text=Deseo%20hacer%20una%20reserva%20para%20el%20dia"><i class="fa fa-whatsapp" aria-hidden="true"></i></a>
-                        <a href="https://www.instagram.com/riohotel.ec/"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                    </div>
-                </div>
+                <?php
+                $sql = "SELECT * from tblpage where PageType='contactus'";
+                $query = $dbh->prepare($sql);
+                $query->execute();
+                $results = $query->fetchAll(PDO::FETCH_OBJ);
+
+                $cnt = 1;
+                if ($query->rowCount() > 0) {
+                    foreach ($results as $row) {               ?>
+                        <div class="top-header-content">
+                            <!-- Top Social Area -->
+                            <div class="top-social-area ml-auto">
+                                <a href="<?php echo htmlentities($row->Facebook); ?>"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                <a href="<?php echo htmlentities($row->Twitter); ?>"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                                <a href="<?php echo htmlentities($row->Instagram); ?>"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                <?php $cnt = $cnt + 1;
+                    }
+                } ?>
             </div>
 
         </div>
@@ -46,7 +57,19 @@
             <nav class="classy-navbar justify-content-between" id="robertoNav">
 
                 <!-- Logo -->
-                <a class="nav-brand" href="./"><img src="images/logoheader.jpeg" alt=""></a>
+                <?php
+                $sql = "SELECT Logo from tblabout";
+                $query = $dbh->prepare($sql);
+                $query->execute();
+                $results = $query->fetchAll(PDO::FETCH_OBJ);
+
+                $cnt = 1;
+                if ($query->rowCount() > 0) {
+                    foreach ($results as $row) {               ?>
+                        <a class="nav-brand" href="./"><img src="admin/images/<?php echo $row->Logo; ?>" width="80" height="75" alt=""></a>
+                <?php $cnt = $cnt + 1;
+                    }
+                } ?>
 
                 <!-- Navbar Toggler -->
                 <div class="classy-navbar-toggler">
@@ -72,30 +95,30 @@
                             </li>
                             <li><a href="./contact.php">CONTACTO</a></li>
                             <li><a href="./rating.php">CALIFICACIONES</a></li>
-                            <?php if (strlen($_SESSION['hbmsuid'] == 0)) { ?>
-                                <li><a href="#">CUENTA</a>
-                                    <ul class="dropdown">
-                                        <li><a href="./signin.php">INICIAR SESIÓN</a></li>
-                                        <li><a href="./signup.php">REGISTRARSE</a></li>
-                                    </ul>
-                                </li>
-                            <?php } ?>
-
-                            <?php if (strlen($_SESSION['hbmsuid'] != 0)) { ?>
-                                <li><a href="#">CUENTA</a>
-                                    <ul class="dropdown">
-                                        <li><a href="./profile.php">PERFIL</a></li>
-                                        <li><a href="./my-booking.php">MIS RESERVAS</a></li>
-                                        <li><a href="./change-password.php">CAMBIAR CONTRASEÑA</a></li>
-                                        <li><a href="./logout.php">CERRAR SESIÓN</a></li>
-                                    </ul>
-                                </li><?php } ?>
                         </ul>
 
                         <!-- Book Now -->
-                        <div class="book-now-btn ml-3 ml-lg-5">
+                        <div class="book-now-btn ml-2 ml-lg-3">
                             <a href="./room.php">RESERVAR</a>
                         </div>
+
+                        <!-- Book Now -->
+
+                        <?php
+                        $sql = "SELECT Whatsapp from tblpage where PageType='contactus'";
+                        $query = $dbh->prepare($sql);
+                        $query->execute();
+                        $results = $query->fetchAll(PDO::FETCH_OBJ);
+
+                        $cnt = 1;
+                        if ($query->rowCount() > 0) {
+                            foreach ($results as $row) {               ?>
+                                <div class="book-now-btn ml-2 ml-lg-3">
+                                    <a href="<?php echo htmlentities($row->Whatsapp); ?>"><i class="fa fa-whatsapp" aria-hidden="true"></i></a>
+                                </div>
+                        <?php $cnt = $cnt + 1;
+                            }
+                        } ?>
                     </div>
                     <!-- Nav End -->
                 </div>

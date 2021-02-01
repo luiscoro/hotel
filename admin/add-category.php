@@ -9,12 +9,10 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 
 		$hbmsaid = $_SESSION['hbmsaid'];
 		$cname = $_POST['cname'];
-		$catdes = $_POST['catdes'];
 
-		$sql = "insert into tblcategory(CategoryName,Description)values(:cname,:catdes)";
+		$sql = "insert into tblcategory(CategoryName)values(:cname)";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':cname', $cname, PDO::PARAM_STR);
-		$query->bindParam(':catdes', $catdes, PDO::PARAM_STR);
 		$query->execute();
 
 		$LastInsertId = $dbh->lastInsertId();
@@ -126,7 +124,6 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 
 												<form method="post">
 													<div class="form-group"> <label for="exampleInputEmail1">Título:</label> <input type="text" class="form-control" name="cname" value="" required='true'> </div>
-													<div class="form-group"> <label for="exampleInputEmail1">Descripción:</label> <textarea type="text" class="form-control" name="catdes" value=""></textarea> </div>
 													<button type="submit" class="btn btn-default" name="submit">Agregar</button>
 												</form>
 											</div>

@@ -14,12 +14,20 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 		$pagedes = $_POST['pagedes'];
 		$mobnum = $_POST['mobnum'];
 		$email = $_POST['email'];
-		$sql = "update tblpage set PageTitle=:pagetitle,PageDescription=:pagedes,Email=:email,MobileNumber=:mobnum where  PageType='contactus'";
+		$face = $_POST['face'];
+		$what = $_POST['what'];
+		$inst = $_POST['inst'];
+		$twit = $_POST['twit'];
+		$sql = "update tblpage set PageTitle=:pagetitle,PageDescription=:pagedes,Email=:email,MobileNumber=:mobnum,Facebook=:face,Whatsapp=:what,Instagram=:inst,Twitter=:twit where PageType='contactus'";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':pagetitle', $pagetitle, PDO::PARAM_STR);
 		$query->bindParam(':pagedes', $pagedes, PDO::PARAM_STR);
 		$query->bindParam(':email', $email, PDO::PARAM_STR);
 		$query->bindParam(':mobnum', $mobnum, PDO::PARAM_STR);
+		$query->bindParam(':face', $face, PDO::PARAM_STR);
+		$query->bindParam(':what', $what, PDO::PARAM_STR);
+		$query->bindParam(':inst', $inst, PDO::PARAM_STR);
+		$query->bindParam(':twit', $twit, PDO::PARAM_STR);
 		$query->execute();
 		echo '<script>alert("La información ha sido actualizada")</script>';
 	}
@@ -28,7 +36,12 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 	<html>
 
 	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>Rio Hotel | Contacto</title>
+		<link rel="icon" href="../images/logo.png">
 
 		<script type="application/x-javascript">
 			addEventListener("load", function() {
@@ -133,8 +146,15 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 															<div class="form-group"> <label for="exampleInputEmail1">Título</label> <input type="text" name="pagetitle" id="pagetitle" required="true" value="<?php echo $row->PageTitle; ?>" class="form-control"> </div>
 															<div class="form-group"> <label for="exampleInputEmail1">Correo</label> <input type="text" name="email" id="email" required="true" value="<?php echo $row->Email; ?>" class="form-control"> </div>
 															<div class="form-group"> <label for="exampleInputEmail1">Teléfono/Celular</label> <input type="text" name="mobnum" id="mobnum" required="true" value="<?php echo $row->MobileNumber; ?>" class="form-control"> </div>
-															<div class="form-group"> <label for="exampleInputEmail1">Dirección</label> <textarea type="text" name="pagedes" id="pagedes" required="true" class="form-control"><?php echo $row->PageDescription; ?></textarea> </div>
-
+															<div class="form-group"> <label for="exampleInputEmail1">Dirección</label> <input type="text" name="pagedes" id="pagedes" required="true" value="<?php echo $row->PageDescription; ?>" class="form-control" readonly=true> </div>
+															<div class="form-group"> <label for="exampleInputEmail1">Facebook</label> <input type="text" name="face" id="face" required="true" value="<?php echo $row->Facebook; ?>" class="form-control"> </div>
+															<div class="form-group"> <label for="exampleInputEmail1">WhatsApp</label> <input type="text" name="what" id="what" required="true" value="<?php echo $row->Whatsapp; ?>" class="form-control"> </div>
+															<div class="form-group"> <label for="exampleInputEmail1">Instagram</label> <input type="text" name="inst" id="inst" required="true" value="<?php echo $row->Instagram; ?>" class="form-control"> </div>
+															<div class="form-group"> <label for="exampleInputEmail1">Twitter</label> <input type="text" name="twit" id="twit" required="true" value="<?php echo $row->Twitter; ?>" class="form-control"> </div>
+															<div class="form-group"> <label for="exampleInputEmail1">Imagen sección encabezado:</label> &nbsp;&nbsp;
+																<img src="images/<?php echo $row->Image; ?>" width="100" height="100" value="<?php echo $row->Image; ?>">
+																<a href="changeimageco.php?editid=<?php echo $row->ID; ?>"> &nbsp; Editar imagen</a>
+															</div>
 													<?php $cnt = $cnt + 1;
 														}
 													} ?>

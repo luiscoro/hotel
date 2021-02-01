@@ -120,6 +120,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 															<th class="d-none d-sm-table-cell">Imagen</th>
 															<th class="d-none d-sm-table-cell">Texto a mostrar</th>
 															<th class="d-none d-sm-table-cell" style="width: 15%;">Acción</th>
+															<th class="d-none d-sm-table-cell" style="width: 15%;">Acción</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -127,7 +128,9 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 															<tr>
 																<td class="d-none d-sm-table-cell"><img src="<?php echo $img->folder . $img->src; ?>" width="100" height="100"></td>
 																<td class="d-none d-sm-table-cell"><?php echo $img->title; ?></td>
+																<td class="d-none d-sm-table-cell"><a href="edit-slider.php?editid=<?php echo $img->id; ?>">Editar</a></td>
 																<td class="d-none d-sm-table-cell"><a href="manage-slider.php?id=<?php echo $img->id; ?>" onclick="return confirm('Desea realmente eliminar ?');">Eliminar</a></td>
+
 															</tr>
 														<?php endforeach; ?>
 													</tbody>

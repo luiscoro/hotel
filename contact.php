@@ -50,6 +50,104 @@ if (isset($_POST['submit'])) {
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/sweetalert.js"></script>
 
+	<script type="text/javascript">
+		function validateForm() {
+			var msg1 = document.getElementById('msg1');
+			var msg2 = document.getElementById('msg2');
+			var msg3 = document.getElementById('msg3');
+			var msg4 = document.getElementById('msg4');
+			var nom = document.getElementById('namef');
+			var num = document.getElementById('mobnof');
+			var cor = document.getElementById('emailf');
+			var mes = document.getElementById('messagef');
+
+			msg1.innerText = '';
+			msg2.innerText = '';
+			msg3.innerText = '';
+			msg4.innerText = '';
+			color = '#FF0000';
+			color1 = '#f1e398';
+			var n = document.contact.name.value;
+			var numtel = document.contact.phone.value;
+			var em = document.contact.email.value;
+			var mess = document.contact.message.value;
+
+
+			if (n == '') {
+				msg1.innerText = 'Este campo es obligatorio';
+				nom.style.borderColor = color;
+				return false;
+			} else {
+				nom.style.borderColor = color1;
+			}
+
+			if (!validateName(n)) {
+				msg1.innerText = 'El nombre debe incluir sólo letras';
+				nom.style.borderColor = color;
+				return false;
+			} else {
+				nom.style.borderColor = color1;
+			}
+
+			if (numtel == '') {
+				msg2.innerText = 'Este campo es obligatorio';
+				num.style.borderColor = color;
+				return false;
+			} else {
+				num.style.borderColor = color1;
+			}
+
+			if (!validateMob(numtel)) {
+				msg2.innerText = 'El teléfono debe incluir sólo números';
+				num.style.borderColor = color;
+				return false;
+			} else {
+				num.style.borderColor = color1;
+			}
+
+			if (em == '') {
+				msg3.innerText = 'Este campo es obligatorio';
+				cor.style.borderColor = color;
+				return false;
+			} else {
+				cor.style.borderColor = color1;
+			}
+
+			if (!validateEmail(em)) {
+				msg3.innerText = 'El correo ingresado no es válido';
+				cor.style.borderColor = color;
+				return false;
+			} else {
+				cor.style.borderColor = color1;
+			}
+
+			if (mess == '') {
+				msg4.innerText = 'Este campo es obligatorio';
+				mes.style.borderColor = color;
+				return false;
+			} else {
+				mes.style.borderColor = color1;
+			}
+
+			return true;
+		}
+
+		function validateName(name) {
+			var re = /^[ñA-Za-z _]*[ñA-Za-z][ñA-Za-z _]*$/;
+			return re.test(String(name).toLowerCase());
+		}
+
+		function validateMob(mob) {
+			var re = /^([0-9])*$/;
+			return re.test(String(mob));
+		}
+
+		function validateEmail(email) {
+			var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			return re.test(String(email).toLowerCase());
+		}
+	</script>
+
 </head>
 
 <body>
@@ -60,17 +158,28 @@ if (isset($_POST['submit'])) {
 	<!--header-->
 
 	<!-- Breadcrumb Area Start -->
-	<div class="breadcrumb-area bg-img bg-overlay jarallax" style="background-image: url(admin/images/galeria/contacto.jpg);">
-		<div class="container h-100">
-			<div class="row h-100 align-items-center">
-				<div class="col-12">
-					<div class="breadcrumb-content text-center">
-						<h2 class="page-title">Contáctanos</h2>
+	<?php
+	$sql = "SELECT * from tblpage where PageType='contactus'";
+	$query = $dbh->prepare($sql);
+	$query->execute();
+	$results = $query->fetchAll(PDO::FETCH_OBJ);
+	$cnt = 1;
+	if ($query->rowCount() > 0) {
+		foreach ($results as $row) {               ?>
+			<div class="breadcrumb-area bg-img bg-overlay jarallax" style="background-image: url(admin/images/<?php echo $row->Image; ?>);">
+				<div class="container h-100">
+					<div class="row h-100 align-items-center">
+						<div class="col-12">
+							<div class="breadcrumb-content text-center">
+								<h2 class="page-title"><?php echo htmlentities($row->PageTitle); ?></h2>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
+	<?php $cnt = $cnt + 1;
+		}
+	} ?>
 	<!-- Breadcrumb Area End -->
 
 
@@ -142,63 +251,28 @@ if (isset($_POST['submit'])) {
 				<div class="col-12">
 					<!-- Form -->
 					<div class="riohotel-contact-form">
-						<form action="#" method="post">
+						<form method="post" onsubmit="return validateForm();" name="contact" autocomplete="off">
 							<div class="row">
 
 								<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 									<h5>Nombre:</h5>
-									<input type="text" name="name" class="form-control mb-30" required="true" <?php
-																												$uid = $_SESSION['hbmsuid'];
-																												if ($uid == 0) { ?> value="" <?php } else {
-																																				$sql = "SELECT tbluser.FullName from  tbluser where ID=:uid";
-																																				$query = $dbh->prepare($sql);
-																																				$query->bindParam(':uid', $uid, PDO::PARAM_STR);
-																																				$query->execute();
-																																				$results = $query->fetchAll(PDO::FETCH_OBJ);
-																																				$cnt = 1;
-																																				if ($query->rowCount() > 0) {
-																																					foreach ($results as $row) {               ?>value="<?php echo $row->FullName; ?>" readonly="true" <?php $cnt = $cnt + 1;
-																																																													}
-																																																												}
-																																																											} ?>>
+									<input type="text" name="name" id="namef" class="form-control mb-30" onchange="validateForm()">
+									<span id="msg1" style="color:red"> </span>
 								</div>
 								<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 									<h5>Número telefónico:</h5>
-									<input type="text" name="phone" required="true" maxlength="10" pattern="[0-9]+" class="form-control mb-30" <?php
-																																				$uid = $_SESSION['hbmsuid'];
-																																				if ($uid == 0) { ?> value="" <?php } else {
-																																												$sql = "SELECT tbluser.MobileNumber from  tbluser where ID=:uid";
-																																												$query = $dbh->prepare($sql);
-																																												$query->bindParam(':uid', $uid, PDO::PARAM_STR);
-																																												$query->execute();
-																																												$results = $query->fetchAll(PDO::FETCH_OBJ);
-																																												$cnt = 1;
-																																												if ($query->rowCount() > 0) {
-																																													foreach ($results as $row) {               ?>value="<?php echo $row->MobileNumber; ?>" readonly="true" <?php $cnt = $cnt + 1;
-																																																																						}
-																																																																					}
-																																																																				} ?>>
+									<input type="text" name="phone" id="mobnof" maxlength="15" class="form-control mb-30" onchange="validateForm()">
+									<span id="msg2" style="color:red"> </span>
 								</div>
-								<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
+								<div class="col-12 wow fadeInUp" data-wow-delay="100ms" onchange="validateForm()">
 									<h5>Correo electrónico:</h5>
-									<input type="email" name="email" required="true" class="form-control mb-30" <?php
-																												$uid = $_SESSION['hbmsuid'];
-																												if ($uid == 0) { ?> value="" <?php } else {
-																																				$sql = "SELECT tbluser.Email from  tbluser where ID=:uid";
-																																				$query = $dbh->prepare($sql);
-																																				$query->bindParam(':uid', $uid, PDO::PARAM_STR);
-																																				$query->execute();
-																																				$results = $query->fetchAll(PDO::FETCH_OBJ);
-																																				$cnt = 1;
-																																				if ($query->rowCount() > 0) {
-																																					foreach ($results as $row) {               ?>value="<?php echo $row->Email; ?>" readonly="true" <?php $cnt = $cnt + 1;
-																																																												}
-																																																											}
-																																																										} ?>>
+									<input type="text" name="email" id="emailf" class="form-control mb-30">
+									<span id="msg3" style="color:red"> </span>
 								</div>
 								<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 									<h5>Mensaje:</h5>
-									<textarea name="message" required="true" class="form-control mb-30"></textarea>
+									<textarea name="message" id="messagef" class="form-control mb-30" onchange="validateForm()"></textarea>
+									<span id="msg4" style="color:red"> </span>
 								</div>
 
 								<div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
