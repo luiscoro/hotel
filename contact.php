@@ -13,6 +13,8 @@ if (isset($_POST['submit'])) {
 	$phone = $_POST['phone'];
 	$email = $_POST['email'];
 	$message = $_POST['message'];
+	$destino = "luiscoronel_97@hotmail.com";
+
 
 	$sql = "insert into tblcontact(Name,MobileNumber,Email,Message)values(:name,:phone,:email,:message)";
 	$query = $dbh->prepare($sql);
@@ -24,7 +26,18 @@ if (isset($_POST['submit'])) {
 
 	$LastInsertId = $dbh->lastInsertId();
 	if ($LastInsertId > 0) {
-		$mostrar = ["Éxito!", "El mensaje ha sido enviado", "success"];
+		$asunto = "CONTACTO";
+		$msg = $message . "\n" . "Mis datos son los siguientes:" . "\n" .
+			"Nombre: " . $name . "\n" .
+			"Número telefónico de contacto: " . $phone . "\n";;
+		$header = "From: " . $email . "\r\n";
+		$header .= "Reply-To: " . $email . "\r\n";
+		$header .= "X-Mailer: PHP/" . phpversion();
+
+		$mail = mail($destino, $asunto, $msg, $header);
+		if ($mail) {
+			$mostrar = ["Éxito!", "El mensaje ha sido enviado,gracias por comunicarse con nosotros", "success"];
+		}
 	} else {
 		$mostrar = ["Error!", "Algo salió mal. Inténtelo de nuevo", "error"];
 	}

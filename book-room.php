@@ -16,6 +16,9 @@ if (isset($_POST['submit'])) {
 	$cantadult = $_POST['cantadult'];
 	$cantchild = $_POST['cantchild'];
 
+	$nameRoom = $_POST['nameRoom'];
+	$destino = "luiscoronel_97@hotmail.com";
+
 	if ($checkindate > $checkoutdate) {
 		$mostrar = ["Error!", "La fecha de salida debe ser igual o mayor a la fecha de ingreso", "error"];
 	} else {
@@ -33,7 +36,19 @@ if (isset($_POST['submit'])) {
 
 		$LastInsertId = $dbh->lastInsertId();
 		if ($LastInsertId > 0) {
-			$mostrar = ["Éxito!", "Su reserva ha sido enviada, en breve nos pondremos en contacto para confirmar disponibilidad", "success"];
+			$asunto = "RESERVA";
+			$msg = "Deseo reservar la " . $nameRoom . " desde el " . $checkindate . " hasta el " . $checkoutdate . ". Mis datos son los siguientes:" . "\n" .
+				"Cantidad de adultos: " . $cantadult . "\n" .
+				"Cantidad de niños: " . $cantchild . "\n" .
+				"Nombre: " . $name . "\n" .
+				"Número telefónico de contacto: " . $phone . "\n";
+			$header = "From: " . $email . "\r\n";
+			$header .= "Reply-To: " . $email . "\r\n";
+			$header .= "X-Mailer: PHP/" . phpversion();
+			$mail = mail($destino, $asunto, $msg, $header);
+			if ($mail) {
+				$mostrar = ["Éxito!", "Su reserva ha sido enviada, en breve nos pondremos en contacto para confirmar disponibilidad", "success"];
+			}
 		} else {
 			$mostrar = ["Error!", "Algo salió mal. Por favor, vuelva a intentarlo", "error"];
 		}
@@ -206,7 +221,7 @@ if (isset($_POST['submit'])) {
 									foreach ($results as $row) {               ?>
 										<div class="col-12 wow fadeInUp" data-wow-delay="100ms">
 											<h5>Habitación:</h5>
-											<input type="text" value="<?php echo $row->RoomName; ?>" class="form-control mb-30" readonly="true">
+											<input type="text" name="nameRoom" value="<?php echo $row->RoomName; ?>" class="form-control mb-30" readonly="true">
 										</div>
 								<?php $cnt = $cnt + 1;
 									}
@@ -288,7 +303,7 @@ if (isset($_POST['submit'])) {
 				<?= json_encode($mostrar[2]) ?>
 			).then(() => {
 				if (<?= json_encode($mostrar[2]) ?> == 'success') {
-					location.href = 'book-room.php'
+					location.href = 'index.php'
 				}
 			});
 		</script>

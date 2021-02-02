@@ -122,7 +122,7 @@ if (strlen($_SESSION['hbmsaid'] == 0)) {
 
 												$bookid = $_GET['bookingid'];
 
-												$sql = "SELECT tblbooking.ID,tblbooking.UserName,tblbooking.UserMobile,tblbooking.UserEmail,tblbooking.CheckinDate,tblbooking.CheckoutDate,tblbooking.BookingDate,tblbooking.Remark,tblbooking.Status,tblbooking.UpdationDate,tblcategory.CategoryName,tblroom.Price,tblroom.RoomName,tblroom.RoomDesc,tblroom.NoofBed,tblroom.Image,tblroom.RoomFacility 
+												$sql = "SELECT tblbooking.ID,tblbooking.UserName,tblbooking.UserMobile,tblbooking.UserEmail,tblbooking.CheckinDate,tblbooking.CheckoutDate,tblbooking.CantAdult,tblbooking.CantChild,tblbooking.BookingDate,tblbooking.Status,tblbooking.UpdationDate,tblcategory.CategoryName,tblroom.Price,tblroom.RoomName,tblroom.RoomDesc,tblroom.NoofBed,tblroom.Image,tblroom.RoomFacility 
 from tblbooking 
 join tblroom on tblbooking.RoomId=tblroom.ID 
 join tblcategory on tblcategory.ID=tblroom.RoomType   
@@ -163,12 +163,19 @@ where tblbooking.ID=:bookid";
 															</tr>
 
 															<tr>
+																<th>Cantidad de adultos:</th>
+																<td><?php echo $row->CantAdult; ?></td>
+																<th>Cantidad de niños:</th>
+																<td><?php echo $row->CantChild; ?></td>
+															</tr>
+
+															<tr>
 															<tr>
 																<th colspan="4" style="color: #6c757d;font-weight: bold;font-size: 15px"> Detalles de la habitación:</th>
 															</tr>
 															<th>Categoría:</th>
 															<td><?php echo $row->CategoryName; ?></td>
-															<th>Precio</th>
+															<th>Precio:</th>
 															<td>$<?php echo $row->Price; ?></td>
 															</tr>
 
@@ -176,7 +183,7 @@ where tblbooking.ID=:bookid";
 
 																<th>Nombre:</th>
 																<td><?php echo $row->RoomName; ?></td>
-																<th>Descripción</th>
+																<th>Descripción:</th>
 																<td><?php echo $row->RoomDesc; ?></td>
 															</tr>
 															<tr>
@@ -190,7 +197,7 @@ where tblbooking.ID=:bookid";
 
 																<th>Servicios:</th>
 																<td><?php echo $row->RoomFacility; ?></td>
-																<th>Fecha de reserva</th>
+																<th>Fecha de reserva:</th>
 																<td><?php echo $row->BookingDate; ?></td>
 															</tr>
 															<tr>
