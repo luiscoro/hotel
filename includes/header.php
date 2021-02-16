@@ -66,7 +66,7 @@
                 $cnt = 1;
                 if ($query->rowCount() > 0) {
                     foreach ($results as $row) {               ?>
-                        <a class="nav-brand" href="./"><img src="admin/images/<?php echo $row->Logo; ?>" width="80" height="75" alt=""></a>
+                        <a class="nav-brand" href="./"><img src="admin/images/<?php echo $row->Logo; ?>" width="74" height="75" alt=""></a>
                 <?php $cnt = $cnt + 1;
                     }
                 } ?>

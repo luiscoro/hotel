@@ -966,7 +966,7 @@ a.riohotel-btn:hover {
 }
 @media only screen and (max-width: 767px) {
   .single-welcome-slide {
-    height: 700px;
+    height: 250px;
   }
 }
 .single-welcome-slide .welcome-text {
@@ -2356,7 +2356,7 @@ html .ui-button.ui-state-disabled:active {
   z-index: 1;
   padding-left: 5%;
   padding-right: 5%;
-  margin-top: -100px;
+  margin-top: -50px;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .google-maps-contact-info {
